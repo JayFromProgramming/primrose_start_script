@@ -46,9 +46,6 @@ class ProcessTracker:
     def _start(self):
         # Setup a shell with the correct environment variables (setup.bash)
 
-        # Create a launch script
-        self.build_launch_script()
-
         self.process_terminal = subprocess.Popen(
             args=f"bash launch_scripts/launch_{self.process_name}.sh",
             shell=True,
@@ -60,6 +57,18 @@ class ProcessTracker:
         # Start the process
         self.status = "Starting..."
         start_time = time.time()
+
+        while start_time + self.stabilize_time > time.time():
+            # Wait for the process to start
+            if self.process_terminal.poll() is not None:
+                # Process has stopped
+                self.status = "Failed"
+                self.running = False
+                return
+            time.sleep(0.1)
+
+        self.status = "Running"
+
         while True:
             # Read the stdout and stderr
             stdout = self.process_terminal.stdout.readline()
@@ -78,11 +87,7 @@ class ProcessTracker:
                 # print(f"Process {self.process_name} has stopped with exit code {self.process_terminal.poll()}")
                 self.running = False
                 break
-            if time.time() - start_time > self.stabilize_time:
-                # The process has started
-                self.status = "Running"
-                self.running = True
-                break
+
 
     def stop(self):
         self.process_terminal.terminate()
