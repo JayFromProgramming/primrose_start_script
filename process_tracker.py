@@ -19,7 +19,7 @@ class ProcessTracker:
 
         self.pid = None
         self.depends = process_depends
-        self.status = "Not Started" if len(process_depends) == 0 else "Waiting..."
+        self.status = "Waiting..." if process_depends is not None else "Ready"
         self.running = False
         self.stdout_last_line = ""
         self.stderr_last_line = ""
