@@ -17,11 +17,11 @@
   },
   "ros1_bridge": {
     "command": "ros2 run ros1_bridge dynamic_bridge",
-    "name": "ROS 1 Bridge",
+    "name": "ROS 1 -> ROS 2 Bridge",
     "additional_commands": ["source /opt/ros/foxy/setup.bash", "source /opt/ros/noetic/setup.bash"],
     "cwd": null,
     "depends": ["roscore"],
-    "stabilize_time": 5
+    "stabilize_time": 10
   },
   "rosbridge_server": {
     "command": "ros2 launch rosbridge_server rosbridge_websocket_launch.xml",
@@ -37,6 +37,22 @@
     "additional_commands": null,
     "cwd": null,
     "depends": null,
+    "stabilize_time": 5
+  },
+  "mciu_serial": {
+    "command": "rosrun rosserial_python serial_node.py _port:=/dev/ttyACM1 _baud:=115200",
+    "name": "MCIU Serial",
+    "additional_commands": ["source /opt/ros/noetic/setup.bash"],
+    "cwd": null,
+    "depends": ["roscore", "ros1_bridge"],
+    "stabilize_time": 5
+  },
+  "addau_serial": {
+    "command": "rosrun rosserial_python serial_node.py _port:=/dev/ttyACM0 _baud:=115200",
+    "name": "ADDAU Serial",
+    "additional_commands": ["source /opt/ros/noetic/setup.bash"],
+    "cwd": null,
+    "depends": ["roscore", "ros1_bridge"],
     "stabilize_time": 5
   }
 }
