@@ -53,6 +53,18 @@ class Main:
             # process_cwd="/home/robot"
         )
 
+        self.ros1_bridge = process_tracker.ProcessTracker(
+            process_name="ROS 1 -> ROS 2 Bridge",
+            process_command="ros2 run ros1_bridge dynamic_bridge",
+            process_env_vars="/opt/ros/foxy/setup.bash",
+        )
+
+        self.rosbridge_server = process_tracker.ProcessTracker(
+            process_name="ROS WEB Bridge",
+            process_command="ros2 launch rosbridge_server rosbridge_websocket_launch.xml",
+            process_env_vars="/opt/ros/foxy/setup.bash",
+        )
+
         self.run()
 
     def display_status(self):
@@ -62,6 +74,8 @@ class Main:
         table.add_column("Status")
         table.add_column("Last Line")
         table.add_row("roscore", self.roscore.status, self.roscore.stdout_last_line)
+        table.add_row("ROS 1 -> ROS 2 Bridge", self.ros1_bridge.status, self.ros1_bridge.stdout_last_line)
+        table.add_row("ROS WEB Bridge", self.rosbridge_server.status, self.rosbridge_server.stdout_last_line)
         self.console.print(table)
 
     def run(self):
