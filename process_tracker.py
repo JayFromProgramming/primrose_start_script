@@ -21,19 +21,24 @@ class ProcessTracker:
         self.thread = threading.Thread(target=self.start)
         self.thread.start()
 
-    def start(self):
-        # Setup a shell with the correct environment variables (setup.bash)
-
-        command = []
+    def build_launch_script(self):
+        lines = []
         if self.process_env_vars is not None:
             # Merge the setup.bash script and the command into one string to execute
             with open(self.process_env_vars, "r") as file:
-                for line in file.readlines():
-                    command.append(line)
-        command = ";".join(command) + f";{self.process_command};"
-        print(command)
+                lines = file.readlines()
+            lines.append(self.process_command)
+        with open(f"launch_{self.process_name}.sh", "w") as file:
+            file.writelines(lines)
+
+    def start(self):
+        # Setup a shell with the correct environment variables (setup.bash)
+
+        # Create a launch script
+        self.build_launch_script()
+
         self.process_terminal = subprocess.Popen(
-            args=command,
+            args=f"bash launch_{self.process_name}.sh",
             shell=True,
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE,
@@ -60,6 +65,3 @@ class ProcessTracker:
     def stop(self):
         self.process_terminal.terminate()
         self.status = "Stopped"
-
-
-
