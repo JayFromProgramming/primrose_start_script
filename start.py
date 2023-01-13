@@ -69,14 +69,14 @@ class Main:
 
     def display_status(self):
         # Display the status of all processes in a table
-        table = Table(show_header=True, header_style="bold magenta")
+        table = Table(show_header=True, header_style="bold magenta", show_lines=True)
         table.add_column("Process Name")
         table.add_column("Status")
         table.add_column("Last Line")
-        table.add_row("roscore", self.roscore.status, self.roscore.stdout_last_line)
+        table.add_row("ROS1 CORE", self.roscore.status, self.roscore.stdout_last_line)
         table.add_row("ROS 1 -> ROS 2 Bridge", self.ros1_bridge.status, self.ros1_bridge.stdout_last_line)
         table.add_row("ROS WEB Bridge", self.rosbridge_server.status, self.rosbridge_server.stdout_last_line)
-        self.console.print(table)
+        self.console.print(table, justify="center", highlight=False)
 
     def run(self):
         while True:
