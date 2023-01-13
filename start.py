@@ -53,6 +53,11 @@ class Main:
         # Read the environment variables that were set
         env_vars = {}
 
+    def get_process(self, name):
+        for process in self.processes:
+            if process.name == name:
+                return process
+
     def start(self):
         targets = json.load(open("launch.json", "r"))
         # Create a process tracker for each process
@@ -75,10 +80,15 @@ class Main:
 
         # Check each process every second to see if it can be started
         while True:
-            for process in self.processes:
-                if process.depends:
-                    if all([self.processes[self.processes.index(p)].running for p in process.depends]):
-                        process.start()
+            for process in [process for process in self.processes if not process.running]:
+                # Check if all dependencies are met
+                can_start = True
+                for dependency in process.depends:
+                    if not self.get_process(dependency).running:
+                        can_start = False
+                        break
+                if can_start:
+                    process.start()
             time.sleep(1)
 
     def display_status(self):
