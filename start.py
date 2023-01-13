@@ -37,23 +37,20 @@ class Main:
         )
         process.wait()
 
-        # Read the environment variables
+        # Read the environment variables that were set
         env_vars = {}
-        for line in process.stdout.readlines():
-            line = line.decode("utf-8").strip()
-            if line.startswith("export"):
-                line = line.replace("export ", "")
-                line = line.split("=")
-                env_vars[line[0]] = line[1].replace('"', "")
-        return env_vars
+
 
     def start(self):
-        ros_foxy_vars = self.parse_env_vars("/opt/ros/foxy/setup.bash")
-        print(ros_foxy_vars)
-        # self.roscore = process_tracker.ProcessTracker(
-        #     process_name="roscore",
-        #     process_command="roscore",
 
+        self.roscore = process_tracker.ProcessTracker(
+            process_name="roscore",
+            process_command="roscore",
+            process_env_vars="/opt/ros/noetic/setup.bash",
+            # process_cwd="/home/robot"
+        )
+        while True:
+            print(self.roscore.status)
 
 if __name__ == "__main__":
     Main()
