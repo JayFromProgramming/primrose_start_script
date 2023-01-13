@@ -79,11 +79,13 @@ class Main:
     def display_status(self):
         # Display the status of all processes in a table
         table = Table(show_header=True, header_style="bold magenta", show_lines=True)
+        table.add_column("PID", style="dim", width=12)
         table.add_column("Process Name")
         table.add_column("Status")
         table.add_column("Last Line")
         for process in self.processes:
             table.add_row(
+                str(process.pid),
                 process.name,
                 process.status,
                 process.stdout_last_line

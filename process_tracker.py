@@ -13,6 +13,7 @@ class ProcessTracker:
         self.process_env_vars = process_env_vars
         self.process_cwd = process_cwd
         self.process_terminal = None
+        self.pid = None
         self.status = "Not Started"
         self.running = False
         self.stdout_last_line = ""
@@ -47,7 +48,7 @@ class ProcessTracker:
             stderr=subprocess.PIPE,
             cwd=self.process_cwd
         )
-
+        self.pid = self.process_terminal.pid
         # Start the process
         self.status = "Running"
         while True:
