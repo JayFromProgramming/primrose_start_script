@@ -26,6 +26,7 @@ class Main:
         self.obs = None
         self.robot_nodes = []
         self.threads = []
+        self.console = Console()
         self.start()
 
     def parse_env_vars(self, setup_bash_path):
@@ -61,10 +62,11 @@ class Main:
         table.add_column("Status")
         table.add_column("Last Line")
         table.add_row("roscore", self.roscore.status, self.roscore.stdout_last_line)
-        rprint(table)
+        self.console.print(table)
 
     def run(self):
         while True:
+            self.console.clear()
             self.display_status()
             time.sleep(1)
 
