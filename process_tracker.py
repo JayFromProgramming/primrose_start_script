@@ -74,8 +74,12 @@ class ProcessTracker:
 
         while True:
             # Read the stdout and stderr
+            # Force flush of the buffers
+            self.process_terminal.stdout.flush()
+            self.process_terminal.stderr.flush()
             stdout = self.process_terminal.stdout.readline()
             stderr = self.process_terminal.stderr.readline()
+
             if stdout == b"" and self.process_terminal.poll() is not None:
                 self.stdout_last_line = stdout.decode("utf-8").strip()
                 # print(self.stdout_last_line)
