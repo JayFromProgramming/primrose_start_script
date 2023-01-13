@@ -125,8 +125,11 @@ class Main:
 
     def run(self):
         # Display the status of all processes in a table
-        with Live(self.display_status(), refresh_per_second=1):
-            pass
+        with Live(self.display_status(), refresh_per_second=1) as live:
+            while True:
+                live.update(self.display_status())
+                time.sleep(1)
+
 
 if __name__ == "__main__":
     Main()
