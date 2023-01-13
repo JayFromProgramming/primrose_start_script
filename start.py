@@ -11,7 +11,9 @@
 import subprocess
 import time
 
-import rich
+from rich import print as rprint
+from rich.console import Console
+from rich.table import Table
 import process_tracker
 
 
@@ -54,12 +56,12 @@ class Main:
 
     def display_status(self):
         # Display the status of all processes in a table
-        table = rich.table.Table(show_header=True, header_style="bold magenta")
+        table = Table(show_header=True, header_style="bold magenta")
         table.add_column("Process Name")
         table.add_column("Status")
         table.add_column("Last Line")
         table.add_row("roscore", self.roscore.status, self.roscore.stdout_last_line)
-        rich.print(table)
+        rprint(table)
 
     def run(self):
         while True:
