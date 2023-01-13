@@ -105,7 +105,7 @@ class Main:
                 str(process.pid),
                 process.name,
                 process.status,
-                process.stdout_last_line,
+                process.stdout_last_line if process.running else process.stderr_last_line,
                 style=color
             )
         # Replace the previous table without clearing the console by just moving the cursor up
