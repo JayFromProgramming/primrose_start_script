@@ -92,7 +92,6 @@ class ProcessTracker:
                 self.failed = True
                 break
 
-
     def stop(self):
         self.process_terminal.terminate()
         self.status = "Stopped"

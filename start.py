@@ -80,12 +80,12 @@ class Main:
 
         # Check each process every second to see if it can be started
         while True:
-            for process in [process for process in self.processes if not process.running]:
+            for process in [process for process in self.processes if not process.running and not process.failed]:
                 # Check if all dependencies are met
                 if process.depends:
                     can_start = True
                     for dependency in process.depends:
-                        if not self.get_process(dependency).running:
+                        if not self.get_process(dependency).running and not self.get_process(dependency).failed:
                             can_start = False
                             break
                     if can_start:
