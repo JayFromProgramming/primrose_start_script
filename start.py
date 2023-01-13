@@ -100,7 +100,7 @@ class Main:
         table.add_column("Status")
         table.add_column("Last Line")
         for process in self.processes:
-            color = "green" if process.running else "red"
+            color = "green" if process.running else "red" if process.failed else "yellow"
             table.add_row(
                 str(process.pid),
                 process.name,

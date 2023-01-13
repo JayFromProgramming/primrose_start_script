@@ -21,6 +21,7 @@ class ProcessTracker:
         self.depends = process_depends
         self.status = "Waiting..." if process_depends is not None else "Ready"
         self.running = False
+        self.failed = False
         self.stdout_last_line = ""
         self.stderr_last_line = ""
         self.build_launch_script()
@@ -64,6 +65,7 @@ class ProcessTracker:
                 # Process has stopped
                 self.status = "Failed"
                 self.running = False
+                self.failed = True
                 return
             time.sleep(0.1)
 
@@ -87,6 +89,7 @@ class ProcessTracker:
                 self.stderr_last_line = stderr.decode("utf-8").strip()
                 # print(f"Process {self.process_name} has stopped with exit code {self.process_terminal.poll()}")
                 self.running = False
+                self.failed = True
                 break
 
 
