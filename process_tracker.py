@@ -29,8 +29,9 @@ class ProcessTracker:
         # lines.append("CATKIN_SHELL=bash")
         lines.append("source /opt/ros/noetic/setup.bash")
         lines.append(self.process_command)
+        script = "\n".join(lines)
         with open(f"launch_{self.process_name}.sh", "w") as file:
-            file.writelines(lines)
+            file.write(script)
 
     def start(self):
         # Setup a shell with the correct environment variables (setup.bash)
