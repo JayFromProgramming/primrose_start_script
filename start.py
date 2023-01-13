@@ -97,6 +97,12 @@ class Main:
             process_env_vars=["Xvfb :1 &", "export DISPLAY=:1"],
         ))
 
+        self.processes.append(process_tracker.ProcessTracker(
+            name="Glances",
+            process_name="glances",
+            process_command="glances -w",
+        ))
+
     def display_status(self):
         # Display the status of all processes in a table
         table = Table(show_header=True, header_style="bold magenta", show_lines=True)
