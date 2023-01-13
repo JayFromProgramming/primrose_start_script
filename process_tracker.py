@@ -30,7 +30,7 @@ class ProcessTracker:
             with open(self.process_env_vars, "r") as file:
                 for line in file.readlines():
                     command.append(line)
-        command = ";".join(command) + f";{self.process_command}"
+        command = ";".join(command) + f";{self.process_command};"
         print(command)
         self.process_terminal = subprocess.Popen(
             args=command,
