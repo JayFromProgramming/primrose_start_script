@@ -12,6 +12,7 @@ class ProcessTracker:
         self.process_cwd = process_cwd
         self.process_terminal = None
         self.status = "Not Started"
+        self.running = False
         self.stdout_last_line = ""
         self.stderr_last_line = ""
 
@@ -43,7 +44,7 @@ class ProcessTracker:
                 print(self.stderr_last_line)
             if self.process_terminal.poll() is not None:
                 # The process has stopped
-                self.status = "Stopped"
+                self.status = f"Stopped ({self.process_terminal.poll()})"
                 break
 
     def stop(self):

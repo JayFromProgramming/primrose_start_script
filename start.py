@@ -9,6 +9,8 @@
 # import threading
 # import os
 import subprocess
+import time
+
 # import rich
 import process_tracker
 
@@ -40,9 +42,7 @@ class Main:
         # Read the environment variables that were set
         env_vars = {}
 
-
     def start(self):
-
         self.roscore = process_tracker.ProcessTracker(
             process_name="roscore",
             process_command="roscore",
@@ -51,6 +51,8 @@ class Main:
         )
         while True:
             print(self.roscore.status)
+            time.sleep(1)
+
 
 if __name__ == "__main__":
     Main()
