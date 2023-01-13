@@ -56,6 +56,8 @@ class Main:
             # process_cwd="/home/robot"
         ))
 
+        time.sleep(1)
+
         self.processes.append(process_tracker.ProcessTracker(
             name="ROS 1 -> ROS 2 Bridge",
             process_name="ros1_bridge",
@@ -63,12 +65,16 @@ class Main:
             process_env_vars="/opt/ros/foxy/setup.bash",
         ))
 
+        time.sleep(1)
+
         self.processes.append(process_tracker.ProcessTracker(
             name="ROS WEB Bridge",
             process_name="rosbridge_server",
             process_command="ros2 launch rosbridge_server rosbridge_websocket_launch.xml",
             process_env_vars="/opt/ros/foxy/setup.bash",
         ))
+
+        time.sleep(1)
 
     def display_status(self):
         # Display the status of all processes in a table
