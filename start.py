@@ -52,7 +52,7 @@ class Main:
             name="ROS1 CORE",
             process_name="roscore",
             process_command="roscore",
-            process_env_vars="/opt/ros/noetic/setup.bash",
+            process_env_vars=["/opt/ros/noetic/setup.bash"],
             # process_cwd="/home/robot"
         ))
 
@@ -62,7 +62,7 @@ class Main:
             name="ROS 1 -> ROS 2 Bridge",
             process_name="ros1_bridge",
             process_command="ros2 run ros1_bridge dynamic_bridge",
-            process_env_vars="/opt/ros/foxy/setup.bash",
+            process_env_vars=["/opt/ros/foxy/setup.bash", "/opt/ros/noetic/setup.bash"],
         ))
 
         time.sleep(1)
@@ -71,7 +71,7 @@ class Main:
             name="ROS WEB Bridge",
             process_name="rosbridge_server",
             process_command="ros2 launch rosbridge_server rosbridge_websocket_launch.xml",
-            process_env_vars="/opt/ros/foxy/setup.bash",
+            process_env_vars=["/opt/ros/foxy/setup.bash"],
         ))
 
         time.sleep(1)
