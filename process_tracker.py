@@ -28,10 +28,9 @@ class ProcessTracker:
         if self.process_env_vars is not None:
             # Merge the setup.bash script and the command into one string to execute
             with open(self.process_env_vars, "r") as file:
-                setup_bash = file.readline()
-                for line in file:
-                    setup_bash += f"; {line}"
-            command = f"{setup_bash}; {self.process_command}"
+                for line in file.readline():
+                    command.append(line)
+            command = "; ".join(command)
 
         self.process_terminal = subprocess.Popen(
             args=command,
