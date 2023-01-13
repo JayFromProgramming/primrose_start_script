@@ -76,6 +76,20 @@ class Main:
 
         time.sleep(1)
 
+        self.processes.append(process_tracker.ProcessTracker(
+            name="Actuator Serial Node",
+            process_name="actuator_serial_node",
+            process_command="rosrun rosserial_python serial_node.py _port:=/dev/ttyACM1 _baud:=115200",
+            process_env_vars=["/opt/ros/noetic/setup.bash"],
+        ))
+
+        self.processes.append(process_tracker.ProcessTracker(
+            name="Sensor Serial Node",
+            process_name="sensor_serial_node",
+            process_command="rosrun rosserial_python serial_node.py _port:=/dev/ttyACM0 _baud:=115200",
+            process_env_vars=["/opt/ros/noetic/setup.bash"],
+        ))
+
     def display_status(self):
         # Display the status of all processes in a table
         table = Table(show_header=True, header_style="bold magenta", show_lines=True)
