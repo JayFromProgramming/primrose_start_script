@@ -8,7 +8,7 @@ class ProcessTracker:
 
     def __init__(self, process_name, process_command, process_env_vars=None, process_cwd=None):
         self.process_name = process_name
-        self.process_command = process_command if not process_env_vars else f"source {process_env_vars}; {process_command}"
+        self.process_command = process_command if not process_env_vars else f"/bin/sh {process_env_vars}; {process_command}"
         self.process_cwd = process_cwd
         self.process_terminal = None
         self.status = "Not Started"
