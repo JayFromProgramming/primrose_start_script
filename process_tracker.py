@@ -8,7 +8,8 @@ class ProcessTracker:
 
     def __init__(self, process_name, process_command, process_env_vars=None, process_cwd=None):
         self.process_name = process_name
-        self.process_command = process_command if not process_env_vars else f"/bin/sh {process_env_vars}; {process_command}"
+        self.process_command = process_command
+        self.process_env_vars = process_env_vars
         self.process_cwd = process_cwd
         self.process_terminal = None
         self.status = "Not Started"
@@ -22,8 +23,18 @@ class ProcessTracker:
 
     def start(self):
         # Setup a shell with the correct environment variables (setup.bash)
+
+        command = []
+        if self.process_env_vars is not None:
+            # Merge the setup.bash script and the command into one string to execute
+            with open(self.process_env_vars, "r") as file:
+                setup_bash = file.readline()
+                for line in file:
+                    setup_bash += f"; {line}"
+            command = f"{setup_bash}; {self.process_command}"
+
         self.process_terminal = subprocess.Popen(
-            args=self.process_command,
+            args=command,
             shell=True,
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE,
