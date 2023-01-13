@@ -24,6 +24,7 @@ class ProcessTracker:
         self.stdout_last_line = ""
         self.stderr_last_line = ""
         self.build_launch_script()
+        self.thread = None
 
     def build_launch_script(self):
         lines = []
@@ -39,6 +40,10 @@ class ProcessTracker:
             file.write(script)
 
     def start(self):
+        self.thread = threading.Thread(target=self._start)
+        self.thread.start()
+
+    def _start(self):
         # Setup a shell with the correct environment variables (setup.bash)
 
         # Create a launch script
