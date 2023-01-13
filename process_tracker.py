@@ -1,27 +1,29 @@
 import subprocess
 import os
 import threading
+import time
 
 
 class ProcessTracker:
     # This class is started via multiprocessing.Process
 
-    def __init__(self, name, process_name, process_command, process_env_vars=[], process_cwd=None):
+    def __init__(self, name, process_name, process_command, process_env_vars=None, process_depends=None,
+                 process_cwd=None, stabilize_time=0):
         self.name = name
         self.process_name = process_name
         self.process_command = process_command
-        self.process_env_vars = process_env_vars
+        self.process_env_vars = process_env_vars if process_env_vars is not None else []
         self.process_cwd = process_cwd
         self.process_terminal = None
+        self.stabilize_time = stabilize_time
+
         self.pid = None
-        self.status = "Not Started"
+        self.depends = process_depends
+        self.status = "Not Started" if len(process_depends) == 0 else "Waiting..."
         self.running = False
         self.stdout_last_line = ""
         self.stderr_last_line = ""
-
-        # Start the process
-        self.thread = threading.Thread(target=self.start)
-        self.thread.start()
+        self.build_launch_script()
 
     def build_launch_script(self):
         lines = []
@@ -33,7 +35,7 @@ class ProcessTracker:
             lines.append(f"{env_var}")
         lines.append(self.process_command)
         script = "\n".join(lines)
-        with open(f"launch_{self.process_name}.sh", "w") as file:
+        with open(f"launch_scripts/launch_{self.process_name}.sh", "w") as file:
             file.write(script)
 
     def start(self):
@@ -43,7 +45,7 @@ class ProcessTracker:
         self.build_launch_script()
 
         self.process_terminal = subprocess.Popen(
-            args=f"bash launch_{self.process_name}.sh",
+            args=f"bash launch_scripts/launch_{self.process_name}.sh",
             shell=True,
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE,
@@ -51,8 +53,8 @@ class ProcessTracker:
         )
         self.pid = self.process_terminal.pid
         # Start the process
-        self.status = "Running"
-        self.running = True
+        self.status = "Starting..."
+        start_time = time.time()
         while True:
             # Read the stdout and stderr
             stdout = self.process_terminal.stdout.readline()
@@ -70,6 +72,11 @@ class ProcessTracker:
                 self.stderr_last_line = stderr.decode("utf-8").strip()
                 # print(f"Process {self.process_name} has stopped with exit code {self.process_terminal.poll()}")
                 self.running = False
+                break
+            if time.time() - start_time > self.stabilize_time:
+                # The process has started
+                self.status = "Running"
+                self.running = True
                 break
 
     def stop(self):

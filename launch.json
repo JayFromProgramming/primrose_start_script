@@ -1,0 +1,42 @@
+{
+  "roscore": {
+    "command": "roscore",
+    "name": "ROS 1 Core",
+    "additional_commands": ["source /opt/ros/noetic/setup.bash"],
+    "cwd": null,
+    "depends": null,
+    "stabilize_time": 5
+  },
+  "obs": {
+    "command": "obs",
+    "name": "OBS Studio",
+    "additional_commands": ["Xvfb :1 &", "export DISPLAY=:1"],
+    "cwd": null,
+    "depends": null,
+    "stabilize_time": 5
+  },
+  "ros1_bridge": {
+    "command": "ros2 run ros1_bridge dynamic_bridge",
+    "name": "ROS 1 Bridge",
+    "additional_commands": ["source /opt/ros/foxy/setup.bash", "source /opt/ros/noetic/setup.bash"],
+    "cwd": null,
+    "depends": ["roscore"],
+    "stabilize_time": 5
+  },
+  "rosbridge_server": {
+    "command": "ros2 launch rosbridge_server rosbridge_websocket_launch.xml",
+    "name": "ROS Bridge Server",
+    "additional_commands": ["source /opt/ros/foxy/setup.bash"],
+    "cwd": null,
+    "depends": ["roscore"],
+    "stabilize_time": 5
+  },
+  "glances": {
+    "command": "glances -w",
+    "name": "Glances",
+    "additional_commands": null,
+    "cwd": null,
+    "depends": null,
+    "stabilize_time": 5
+  }
+}

@@ -5,7 +5,8 @@
 # - rosbridge_server
 # - obs (for streaming webcam)
 # - all robot nodes
-
+import json
+import os
 # import threading
 # import os
 import subprocess
@@ -30,6 +31,10 @@ class Main:
         self.processes = []
         self.console = Console()
         threading.Thread(target=self.run).start()
+        # Check if a director called "launch_scripts" exists
+        if not os.path.isdir("launch_scripts"):
+            # If not, create it
+            os.mkdir("launch_scripts")
         self.start()
 
     def parse_env_vars(self, setup_bash_path):
@@ -49,60 +54,32 @@ class Main:
         env_vars = {}
 
     def start(self):
-        self.processes.append(process_tracker.ProcessTracker(
-            name="ROS1 CORE",
-            process_name="roscore",
-            process_command="roscore",
-            process_env_vars=["source /opt/ros/noetic/setup.bash"],
-            # process_cwd="/home/robot"
-        ))
+        targets = json.load(open("launch.json", "r"))
+        # Create a process tracker for each process
+        for target, values in targets.items():
+            process = process_tracker.ProcessTracker(
+                name=values["name"],
+                process_name=target,
+                process_command=values["command"],
+                process_env_vars=values["additional_commands"],
+                process_depends=values["depends"],
+                process_cwd=values["cwd"],
+                stabilize_time=values["stabilize_time"]
+            )
+            self.processes.append(process)
 
-        time.sleep(1)
+        # Start all processes with no dependencies
+        for process in self.processes:
+            if not process.depends:
+                process.start()
 
-        self.processes.append(process_tracker.ProcessTracker(
-            name="ROS 1 -> ROS 2 Bridge",
-            process_name="ros1_bridge",
-            process_command="ros2 run ros1_bridge dynamic_bridge",
-            process_env_vars=["source /opt/ros/foxy/setup.bash", "source /opt/ros/noetic/setup.bash"],
-        ))
-
-        time.sleep(1)
-
-        self.processes.append(process_tracker.ProcessTracker(
-            name="ROS WEB Bridge",
-            process_name="rosbridge_server",
-            process_command="ros2 launch rosbridge_server rosbridge_websocket_launch.xml",
-            process_env_vars=["source /opt/ros/foxy/setup.bash"],
-        ))
-
-        time.sleep(1)
-
-        self.processes.append(process_tracker.ProcessTracker(
-            name="Actuator Serial Node",
-            process_name="actuator_serial_node",
-            process_command="rosrun rosserial_python serial_node.py _port:=/dev/ttyACM1 _baud:=115200",
-            process_env_vars=["source /opt/ros/noetic/setup.bash"],
-        ))
-
-        self.processes.append(process_tracker.ProcessTracker(
-            name="Sensor Serial Node",
-            process_name="sensor_serial_node",
-            process_command="rosrun rosserial_python serial_node.py _port:=/dev/ttyACM0 _baud:=115200",
-            process_env_vars=["source /opt/ros/noetic/setup.bash"],
-        ))
-
-        self.processes.append(process_tracker.ProcessTracker(
-            name="OBS Studio",
-            process_name="obs",
-            process_command="obs",
-            process_env_vars=["Xvfb :1 &", "export DISPLAY=:1"],
-        ))
-
-        self.processes.append(process_tracker.ProcessTracker(
-            name="Glances",
-            process_name="glances",
-            process_command="glances -w",
-        ))
+        # Check each process every second to see if it can be started
+        while True:
+            for process in self.processes:
+                if process.depends:
+                    if all([self.processes[self.processes.index(p)].running for p in process.depends]):
+                        process.start()
+            time.sleep(1)
 
     def display_status(self):
         # Display the status of all processes in a table
