@@ -68,6 +68,7 @@ class ProcessTracker:
             time.sleep(0.1)
 
         self.status = "Running"
+        self.running = True
 
         while True:
             # Read the stdout and stderr
