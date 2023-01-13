@@ -55,7 +55,7 @@ class Main:
 
     def get_process(self, name):
         for process in self.processes:
-            if process.name == name:
+            if process.process_name == name:
                 return process
 
     def start(self):
