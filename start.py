@@ -82,13 +82,14 @@ class Main:
         while True:
             for process in [process for process in self.processes if not process.running]:
                 # Check if all dependencies are met
-                can_start = True
-                for dependency in process.depends:
-                    if not self.get_process(dependency).running:
-                        can_start = False
-                        break
-                if can_start:
-                    process.start()
+                if process.depends:
+                    can_start = True
+                    for dependency in process.depends:
+                        if not self.get_process(dependency).running:
+                            can_start = False
+                            break
+                    if can_start:
+                        process.start()
             time.sleep(1)
 
     def display_status(self):
