@@ -123,13 +123,10 @@ class Main:
         # Replace the previous table without clearing the console by just moving the cursor up
         return table
 
-
     def run(self):
         # Display the status of all processes in a table
         with Live(self.display_status(), refresh_per_second=1):
-            while True:
-                time.sleep(1)
-
+            pass
 
 if __name__ == "__main__":
     Main()
