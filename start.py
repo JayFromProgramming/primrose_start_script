@@ -54,13 +54,13 @@ class Main:
         )
 
         self.ros1_bridge = process_tracker.ProcessTracker(
-            process_name="ROS 1 -> ROS 2 Bridge",
+            process_name="ros1_bridge",
             process_command="ros2 run ros1_bridge dynamic_bridge",
             process_env_vars="/opt/ros/foxy/setup.bash",
         )
 
         self.rosbridge_server = process_tracker.ProcessTracker(
-            process_name="ROS WEB Bridge",
+            process_name="rosbridge_server",
             process_command="ros2 launch rosbridge_server rosbridge_websocket_launch.xml",
             process_env_vars="/opt/ros/foxy/setup.bash",
         )
