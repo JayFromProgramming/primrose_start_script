@@ -15,6 +15,7 @@ import time
 from rich import print as rprint
 from rich.console import Console
 from rich.table import Table
+from rich.live import Live
 import process_tracker
 
 
@@ -120,13 +121,14 @@ class Main:
                 style=color
             )
         # Replace the previous table without clearing the console by just moving the cursor up
-        self.console.print(table, end="\r")
+        return table
+
 
     def run(self):
-        while True:
-            # self.console.clear()
-            self.display_status()
-            time.sleep(1)
+        # Display the status of all processes in a table
+        with Live(self.display_status(), refresh_per_second=1):
+            while True:
+                time.sleep(1)
 
 
 if __name__ == "__main__":
