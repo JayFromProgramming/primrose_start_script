@@ -124,7 +124,7 @@ class Main:
 
     def run(self):
         while True:
-            self.console.clear()
+            # self.console.clear()
             self.display_status()
             time.sleep(1)
 
