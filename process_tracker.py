@@ -55,13 +55,15 @@ class ProcessTracker:
             stderr = self.process_terminal.stderr.readline()
             if stdout == b"" and self.process_terminal.poll() is not None:
                 self.stdout_last_line = stdout.decode("utf-8").strip()
-                # print(self.stdout_last_line)
+                print(self.stdout_last_line)
             if stderr == b"" and self.process_terminal.poll() is not None:
                 self.stderr_last_line = stderr.decode("utf-8").strip()
-                # print(self.stderr_last_line)
+                print(self.stderr_last_line)
             if self.process_terminal.poll() is not None:
                 # The process has stopped
                 self.status = f"Stopped ({self.process_terminal.poll()})"
+                self.stdout_last_line = stdout.decode("utf-8").strip()
+                self.stderr_last_line = stderr.decode("utf-8").strip()
                 break
 
     def stop(self):
