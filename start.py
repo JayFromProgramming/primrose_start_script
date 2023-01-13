@@ -11,7 +11,7 @@
 import subprocess
 import time
 
-# import rich
+import rich
 import process_tracker
 
 
@@ -49,8 +49,21 @@ class Main:
             process_env_vars="/opt/ros/noetic/setup.bash",
             # process_cwd="/home/robot"
         )
+
+        self.run()
+
+    def display_status(self):
+        # Display the status of all processes in a table
+        table = rich.table.Table(show_header=True, header_style="bold magenta")
+        table.add_column("Process Name")
+        table.add_column("Status")
+        table.add_column("Last Line")
+        table.add_row("roscore", self.roscore.status, self.roscore.stdout_last_line)
+        rich.print(table)
+
+    def run(self):
         while True:
-            print(self.roscore.status)
+            self.display_status()
             time.sleep(1)
 
 
