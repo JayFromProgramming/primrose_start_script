@@ -9,6 +9,7 @@
 # import threading
 # import os
 import subprocess
+import threading
 import time
 
 from rich import print as rprint
@@ -20,13 +21,14 @@ import process_tracker
 class Main:
 
     def __init__(self):
-        self.roscore = None
-        self.ros1_bridge = None
-        self.rosbridge_server = None
-        self.obs = None
-        self.robot_nodes = []
-        self.threads = []
+        # self.roscore = None
+        # self.ros1_bridge = None
+        # self.rosbridge_server = None
+        # self.obs = None
+        # self.robot_nodes = []
+        self.processes = []
         self.console = Console()
+        threading.Thread(target=self.run).start()
         self.start()
 
     def parse_env_vars(self, setup_bash_path):
@@ -46,26 +48,27 @@ class Main:
         env_vars = {}
 
     def start(self):
-        self.roscore = process_tracker.ProcessTracker(
+        self.processes.append(process_tracker.ProcessTracker(
+            name="ROS1 CORE",
             process_name="roscore",
             process_command="roscore",
             process_env_vars="/opt/ros/noetic/setup.bash",
             # process_cwd="/home/robot"
-        )
+        ))
 
-        self.ros1_bridge = process_tracker.ProcessTracker(
+        self.processes.append(process_tracker.ProcessTracker(
+            name="ROS 1 -> ROS 2 Bridge",
             process_name="ros1_bridge",
             process_command="ros2 run ros1_bridge dynamic_bridge",
             process_env_vars="/opt/ros/foxy/setup.bash",
-        )
+        ))
 
-        self.rosbridge_server = process_tracker.ProcessTracker(
+        self.processes.append(process_tracker.ProcessTracker(
+            name="ROS WEB Bridge",
             process_name="rosbridge_server",
             process_command="ros2 launch rosbridge_server rosbridge_websocket_launch.xml",
             process_env_vars="/opt/ros/foxy/setup.bash",
-        )
-
-        self.run()
+        ))
 
     def display_status(self):
         # Display the status of all processes in a table
@@ -73,9 +76,12 @@ class Main:
         table.add_column("Process Name")
         table.add_column("Status")
         table.add_column("Last Line")
-        table.add_row("ROS1 CORE", self.roscore.status, self.roscore.stdout_last_line)
-        table.add_row("ROS 1 -> ROS 2 Bridge", self.ros1_bridge.status, self.ros1_bridge.stdout_last_line)
-        table.add_row("ROS WEB Bridge", self.rosbridge_server.status, self.rosbridge_server.stdout_last_line)
+        for process in self.processes:
+            table.add_row(
+                process.name,
+                process.status,
+                process.stdout_last_line
+            )
         self.console.print(table, justify="center", highlight=False)
 
     def run(self):

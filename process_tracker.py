@@ -6,7 +6,8 @@ import threading
 class ProcessTracker:
     # This class is started via multiprocessing.Process
 
-    def __init__(self, process_name, process_command, process_env_vars=None, process_cwd=None):
+    def __init__(self, name, process_name, process_command, process_env_vars=None, process_cwd=None):
+        self.name = name
         self.process_name = process_name
         self.process_command = process_command
         self.process_env_vars = process_env_vars
