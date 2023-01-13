@@ -53,3 +53,7 @@ class Main:
         # self.roscore = process_tracker.ProcessTracker(
         #     process_name="roscore",
         #     process_command="roscore",
+
+
+if __name__ == "__main__":
+    Main()
