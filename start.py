@@ -98,11 +98,13 @@ class Main:
         table.add_column("Status")
         table.add_column("Last Line")
         for process in self.processes:
+            color = "green" if process.is_running() else "red"
             table.add_row(
                 str(process.pid),
                 process.name,
                 process.status,
-                process.stdout_last_line
+                process.stdout_last_line,
+                style=color
             )
         self.console.print(table, justify="center", highlight=False)
 

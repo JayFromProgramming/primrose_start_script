@@ -52,6 +52,7 @@ class ProcessTracker:
         self.pid = self.process_terminal.pid
         # Start the process
         self.status = "Running"
+        self.running = True
         while True:
             # Read the stdout and stderr
             stdout = self.process_terminal.stdout.readline()
@@ -68,6 +69,7 @@ class ProcessTracker:
                 self.stdout_last_line = stdout.decode("utf-8").strip()
                 self.stderr_last_line = stderr.decode("utf-8").strip()
                 # print(f"Process {self.process_name} has stopped with exit code {self.process_terminal.poll()}")
+                self.running = False
                 break
 
     def stop(self):
