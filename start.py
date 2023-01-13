@@ -119,7 +119,8 @@ class Main:
                 process.stdout_last_line,
                 style=color
             )
-        self.console.print(table, justify="center", highlight=False)
+        # Replace the previous table without clearing the console by just moving the cursor up
+        self.console.print(table, end="\r")
 
     def run(self):
         while True:
