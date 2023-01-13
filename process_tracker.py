@@ -53,10 +53,10 @@ class ProcessTracker:
             # Read the stdout and stderr
             stdout = self.process_terminal.stdout.readline()
             stderr = self.process_terminal.stderr.readline()
-            if stdout:
+            if stdout == b"" and self.process_terminal.poll() is not None:
                 self.stdout_last_line = stdout.decode("utf-8").strip()
                 # print(self.stdout_last_line)
-            if stderr:
+            if stderr == b"" and self.process_terminal.poll() is not None:
                 self.stderr_last_line = stderr.decode("utf-8").strip()
                 # print(self.stderr_last_line)
             if self.process_terminal.poll() is not None:
