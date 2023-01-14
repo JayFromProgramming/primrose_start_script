@@ -42,6 +42,8 @@ class ProcessTracker:
             file.write(script)
 
     def start(self):
+        if self.running or self.starting:
+            return
         self.thread = threading.Thread(target=self._start)
         self.thread.start()
 
