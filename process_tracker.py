@@ -67,7 +67,7 @@ class ProcessTracker:
             # Wait for the process to start
             if self.process_terminal.poll() is not None:
                 # Process has stopped
-                self.status = "Launch Failed"
+                self.status = f"Launch Failed: {self.process_terminal.returncode}"
                 self.running = False
                 self.failed = True
                 return
