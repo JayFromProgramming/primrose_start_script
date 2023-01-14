@@ -78,5 +78,29 @@
     "cwd": null,
     "depends": ["mciu_data_formatter", "addau_data_formatter", "ros1_bridge"],
     "stabilize_time": 5
+  },
+  "steering_control": {
+    "command": "ros2 run steering_control steering_control_node",
+    "name": "Steering Routine",
+    "additional_commands": ["source /opt/ros/foxy/setup.bash"],
+    "cwd": null,
+    "depends": ["mciu_data_formatter", "addau_data_formatter", "ros1_bridge"],
+    "stabilize_time": 5
+  },
+  "autodrive_routine": {
+    "command": "ros2 run autodrive_routine autodrive_routine_node",
+    "name": "Autodrive Routine",
+    "additional_commands": ["source /opt/ros/foxy/setup.bash"],
+    "cwd": null,
+    "depends": ["mciu_data_formatter", "addau_data_formatter", "ros1_bridge"],
+    "stabilize_time": 5
+  },
+  "autolevel_routine": {
+    "command": "ros2 run autolevel_routine autolevel_routine_node",
+    "name": "Autolevel Routine",
+    "additional_commands": ["source /opt/ros/foxy/setup.bash"],
+    "cwd": null,
+    "depends": ["mciu_data_formatter", "addau_data_formatter", "ros1_bridge"],
+    "stabilize_time": 5
   }
 }

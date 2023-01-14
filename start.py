@@ -97,7 +97,7 @@ class Main:
         table = Table(show_header=True, header_style="bold magenta", show_lines=True)
         table.add_column("PID", justify="center", style="cyan", no_wrap=True)
         table.add_column("Process Name", width=25)
-        table.add_column("Status", width=15, justify="center")
+        table.add_column("Status", width=15)
         # table.add_column("Last Line"
         for process in self.processes:
             color = "green" if process.running else "red" if process.failed else "yellow"
