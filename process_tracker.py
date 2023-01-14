@@ -88,7 +88,7 @@ class ProcessTracker:
                 # print(self.stderr_last_line)
             if self.process_terminal.poll() is not None:
                 # The process has stopped
-                self.status = f"Stopped ({self.process_terminal.poll()})"
+                self.status = f"Failed ({self.process_terminal.poll()})"
                 self.stdout_last_line = stdout.decode("utf-8").strip()
                 self.stderr_last_line = stderr.decode("utf-8").strip()
                 # print(f"Process {self.process_name} has stopped with exit code {self.process_terminal.poll()}")
