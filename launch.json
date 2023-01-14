@@ -33,7 +33,7 @@
   },
   "glances": {
     "command": "glances -w",
-    "name": "Glances",
+    "name": "Glances System Monitor",
     "additional_commands": null,
     "cwd": null,
     "depends": null,
