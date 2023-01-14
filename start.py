@@ -17,6 +17,7 @@ from rich import print as rprint
 from rich.console import Console
 from rich.table import Table
 from rich.live import Live
+
 import process_tracker
 
 
@@ -85,7 +86,8 @@ class Main:
                 if process.depends:
                     can_start = True
                     for dependency in process.depends:
-                        if not self.get_process(dependency).running and not self.get_process(dependency).failed:
+                        if not self.get_process(dependency).running and not self.get_process(dependency).failed and \
+                                not self.get_process(dependency).starting and not process.starting:
                             can_start = False
                             break
                     if can_start:

@@ -21,6 +21,7 @@ class ProcessTracker:
         self.depends = process_depends
         self.status = "Waiting..." if process_depends is not None else "Ready"
         self.running = False
+        self.starting = False
         self.failed = False
         self.stdout_last_line = ""
         self.stderr_last_line = ""
@@ -57,6 +58,7 @@ class ProcessTracker:
         self.pid = self.process_terminal.pid
         # Start the process
         self.status = "Starting..."
+        self.starting = True
         start_time = time.time()
 
         while start_time + self.stabilize_time > time.time():
