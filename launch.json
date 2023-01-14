@@ -54,5 +54,29 @@
     "cwd": null,
     "depends": ["roscore", "ros1_bridge"],
     "stabilize_time": 5
+  },
+  "mciu_data_formatter": {
+    "command": "ros2 run mciu_data_formatter mciu_data_formatter_node",
+    "name": "MCIU Data Formatter",
+    "additional_commands": ["source /opt/ros/foxy/setup.bash"],
+    "cwd": null,
+    "depends": ["mciu_serial", "ros1_bridge"],
+    "stabilize_time": 5
+  },
+  "addau_data_formatter": {
+      "command": "ros2 run addau_data_formatter addau_data_formatter_node",
+      "name": "ADDAU Data Formatter",
+      "additional_commands": ["source /opt/ros/foxy/setup.bash"],
+      "cwd": null,
+      "depends": ["addau_serial", "ros1_bridge"],
+      "stabilize_time": 5
+  },
+  "diagnostics_routine": {
+    "command": "ros2 run diagnostics_routine diagnostics_routine_node",
+    "name": "Diagnostics Routine",
+    "additional_commands": ["source /opt/ros/foxy/setup.bash"],
+    "cwd": null,
+    "depends": ["mciu_data_formatter", "addau_data_formatter", "ros1_bridge"],
+    "stabilize_time": 5
   }
 }
