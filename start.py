@@ -36,6 +36,10 @@ class Main:
         if not os.path.isdir("launch_scripts"):
             # If not, create it
             os.mkdir("launch_scripts")
+
+        if not os.path.isdir("logs"):
+            os.mkdir("logs")
+
         self.start()
 
     def parse_env_vars(self, setup_bash_path):

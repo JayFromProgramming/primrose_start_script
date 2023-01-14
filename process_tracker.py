@@ -24,7 +24,9 @@ class ProcessTracker:
         self.starting = False
         self.failed = False
         self.stdout_last_line = ""
+        self.stdout_log = []
         self.stderr_last_line = ""
+        self.stderr_log = []
         self.build_launch_script()
         self.thread = None
 
@@ -84,12 +86,13 @@ class ProcessTracker:
             stdout = self.process_terminal.stdout.readline()
             stderr = self.process_terminal.stderr.readline()
 
-            if stdout == b"" and self.process_terminal.poll() is not None:
+            if stdout:
                 self.stdout_last_line = stdout.decode("utf-8").strip()
-                # print(self.stdout_last_line)
-            if stderr == b"" and self.process_terminal.poll() is not None:
+                self.stdout_log.append(self.stdout_last_line)
+            if stderr:
                 self.stderr_last_line = stderr.decode("utf-8").strip()
-                # print(self.stderr_last_line)
+                self.stderr_log.append(self.stderr_last_line)
+
             if self.process_terminal.poll() is not None:
                 # The process has stopped
                 self.status = f"Execute Failed: {self.process_terminal.returncode}"
@@ -99,6 +102,12 @@ class ProcessTracker:
                 self.running = False
                 self.failed = True
                 break
+
+        # Dump the logs to a file
+        with open(f"logs/{self.process_name}.log", "w") as file:
+            file.write("\n".join(self.stdout_log))
+            file.write("\n STANDARD ERROR \n")
+            file.write("\n".join(self.stderr_log))
 
     def stop(self):
         self.process_terminal.terminate()
