@@ -99,22 +99,30 @@ class Main:
 
     def display_status(self):
         # Display the status of all processes in a table
-        table = Table(show_header=True, header_style="bold magenta", show_lines=True)
-        table.add_column("PID", justify="center", style="cyan", no_wrap=True)
-        table.add_column("Process Name", width=25)
-        table.add_column("Status", width=19)
-        # table.add_column("Last Line"
-        for process in self.processes:
-            color = "green" if process.running else "red" if process.failed else "yellow"
-            table.add_row(
-                str(process.pid),
-                process.name,
-                process.status,
-                # str(process.stderr_last_line) if process.stderr_last_line else str(process.stdout_last_line),
-                style=color
-            )
+
+        table_table = Table()
+
+        # Chunk the processes into 2 columns
+        chunk_size = int(len(self.processes) / 2)
+        chunks = [self.processes[i:i + chunk_size] for i in range(0, len(self.processes), chunk_size)]
+        for chunk in chunks:
+            table = Table(show_header=True, header_style="bold magenta", show_lines=True)
+            table.add_column("PID", justify="center", style="cyan", no_wrap=True)
+            table.add_column("Process Name", width=25)
+            table.add_column("Status", width=19)
+            # table.add_column("Last Line"
+            for process in chunk:
+                color = "green" if process.running else "red" if process.failed else "yellow"
+                table.add_row(
+                    str(process.pid),
+                    process.name,
+                    process.status,
+                    # str(process.stderr_last_line) if process.stderr_last_line else str(process.stdout_last_line),
+                    style=color
+                )
+            table_table.add_column(table)
+        return table_table
         # Replace the previous table without clearing the console by just moving the cursor up
-        return table
 
     def run(self):
         # Display the status of all processes in a table
