@@ -26,7 +26,7 @@
   "rosbridge_server": {
     "command": "ros2 launch rosbridge_server rosbridge_websocket_launch.xml",
     "name": "Network Telemetry Server",
-    "additional_commands": ["source /opt/ros/foxy/setup.bash"],
+    "additional_commands": ["source /opt/ros/foxy/setup.bash", ". /home/jetson/ros2_ws/install/setup.bash"],
     "cwd": null,
     "depends": ["roscore"],
     "stabilize_time": 5
