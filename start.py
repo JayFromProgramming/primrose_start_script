@@ -104,6 +104,8 @@ class Main:
 
         # Chunk the processes into 2 columns
         chunk_size = int(len(self.processes) / 2)
+        if chunk_size == 0:
+            return table_table
         chunks = [self.processes[i:i + chunk_size] for i in range(0, len(self.processes), chunk_size)]
         for chunk in chunks:
             table = Table(show_header=True, header_style="bold magenta", show_lines=True)
