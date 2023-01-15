@@ -101,6 +101,7 @@ class Main:
         # Display the status of all processes in a table
 
         table_table = Table()
+        tables = []
 
         # Chunk the processes into 2 columns
         chunk_size = 13
@@ -108,6 +109,7 @@ class Main:
             return table_table
         chunks = [self.processes[i:i + chunk_size] for i in range(0, len(self.processes), chunk_size)]
         for chunk in chunks:
+            table_table.add_column()
             table = Table(show_header=True, header_style="bold magenta", show_lines=True)
             table.add_column("PID", justify="center", style="cyan", no_wrap=True)
             table.add_column("Process Name", width=25)
@@ -122,7 +124,11 @@ class Main:
                     # str(process.stderr_last_line) if process.stderr_last_line else str(process.stdout_last_line),
                     style=color
                 )
-            table_table.add_column(table)
+            tables.append(table)
+
+        # Add the tables to the table table
+        table_table.add_row(*tables)
+
         return table_table
         # Replace the previous table without clearing the console by just moving the cursor up
 
