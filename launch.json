@@ -125,7 +125,7 @@
     "name": "Webcam Streaming Routine",
     "additional_commands": ["source /opt/ros/foxy/setup.bash", ". /home/jetson/ros2_ws/install/setup.bash"],
     "cwd": null,
-    "depends": [],
+    "depends": ["rosbridge_server"],
     "stabilize_time": 5
   },
   "command_decision_routine": {
@@ -133,7 +133,7 @@
     "name": "Command Decision Routine",
     "additional_commands": ["source /opt/ros/foxy/setup.bash", ". /home/jetson/ros2_ws/install/setup.bash"],
     "cwd": null,
-    "depends": [],
+    "depends": ["rosbridge_server"],
     "stabilize_time": 5
   }
 }
