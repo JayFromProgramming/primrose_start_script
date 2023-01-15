@@ -72,7 +72,7 @@
       "stabilize_time": 5
   },
   "diagnostics_routine": {
-    "command": "ros2 run diagnostics_routine diagnostics_routine_node",
+    "command": "ros2 run primrose_sdr primrose_sdr",
     "name": "Diagnostics Routine",
     "additional_commands": ["source /opt/ros/foxy/setup.bash"],
     "cwd": null,
