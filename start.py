@@ -103,7 +103,7 @@ class Main:
         table_table = Table()
 
         # Chunk the processes into 2 columns
-        chunk_size = int(len(self.processes) / 2)
+        chunk_size = int(len(self.processes) / 3)
         if chunk_size == 0:
             return table_table
         chunks = [self.processes[i:i + chunk_size] for i in range(0, len(self.processes), chunk_size)]
