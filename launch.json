@@ -93,7 +93,7 @@
     "name": "Autodrive Routine",
     "additional_commands": ["source /opt/ros/foxy/setup.bash", ". /home/jetson/ros2_ws/install/setup.bash"],
     "cwd": null,
-    "depends": ["mciu_data_formatter", "addau_data_formatter", "ros1_bridge"],
+    "depends": ["mciu_data_formatter", "addau_data_formatter", "ros1_bridge", "steering_control", "localization_routine"],
     "stabilize_time": 5
   },
   "autolevel_routine": {
@@ -123,6 +123,14 @@
   "webcam_streaming_routine": {
     "command": "ros2 run webcam_streaming_routine webcam_streaming_routine_node",
     "name": "Webcam Streaming Routine",
+    "additional_commands": ["source /opt/ros/foxy/setup.bash", ". /home/jetson/ros2_ws/install/setup.bash"],
+    "cwd": null,
+    "depends": [],
+    "stabilize_time": 5
+  },
+  "command_decision_routine": {
+    "command": "ros2 run command_decision_routine command_decision_routine_node",
+    "name": "Command Decision Routine",
     "additional_commands": ["source /opt/ros/foxy/setup.bash", ". /home/jetson/ros2_ws/install/setup.bash"],
     "cwd": null,
     "depends": [],
