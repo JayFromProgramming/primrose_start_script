@@ -49,6 +49,12 @@ class ProcessTracker:
         self.thread = threading.Thread(target=self._start)
         self.thread.start()
 
+    def dump_logs(self, stdout, stderr):
+        with open(f"logs/{self.process_name}.log", "w") as file:
+            file.write(stdout)
+            file.write("\n STANDARD ERROR \n")
+            file.write(stderr)
+
     def _start(self):
         # Setup a shell with the correct environment variables (setup.bash)
 
@@ -72,6 +78,9 @@ class ProcessTracker:
                 self.status = f"Launch Failed: {self.process_terminal.returncode}"
                 self.running = False
                 self.failed = True
+                # Make log file
+                self.dump_logs(self.process_terminal.stdout.read().decode("utf-8"),
+                               self.process_terminal.stderr.read().decode("utf-8"))
                 return
             time.sleep(0.1)
 
