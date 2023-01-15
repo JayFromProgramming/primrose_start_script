@@ -100,7 +100,7 @@ class Main:
     def display_status(self):
         # Display the status of all processes in a table
 
-        table_table = Table()
+        table_table = Table(show_header=False)
         tables = []
 
         # Chunk the processes into 2 columns
