@@ -18,7 +18,8 @@
   "ros1_bridge": {
     "command": "ros2 run ros1_bridge dynamic_bridge",
     "name": "ROS 1 -> ROS 2 Bridge",
-    "additional_commands": ["source /opt/ros/foxy/setup.bash", "source /opt/ros/noetic/setup.bash"],
+    "additional_commands": ["source /opt/ros/foxy/setup.bash", "source /opt/ros/noetic/setup.bash",
+                            ". /home/jetson/ros2_ws/install/setup.bash"],
     "cwd": null,
     "depends": ["roscore"],
     "stabilize_time": 10
@@ -58,7 +59,7 @@
   "mciu_data_formatter": {
     "command": "ros2 run mciu_data_formatter mciu_data_formatter_node",
     "name": "MCIU Data Formatter",
-    "additional_commands": ["source /opt/ros/foxy/setup.bash"],
+    "additional_commands": ["source /opt/ros/foxy/setup.bash", ". /home/jetson/ros2_ws/install/setup.bash"],
     "cwd": null,
     "depends": ["mciu_serial", "ros1_bridge"],
     "stabilize_time": 5
@@ -66,7 +67,7 @@
   "addau_data_formatter": {
       "command": "ros2 run addau_data_formatter addau_data_formatter_node",
       "name": "ADDAU Data Formatter",
-      "additional_commands": ["source /opt/ros/foxy/setup.bash"],
+      "additional_commands": ["source /opt/ros/foxy/setup.bash", ". /home/jetson/ros2_ws/install/setup.bash"],
       "cwd": null,
       "depends": ["addau_serial", "ros1_bridge"],
       "stabilize_time": 5
@@ -82,7 +83,7 @@
   "steering_control": {
     "command": "ros2 run steering_control steering_control_node",
     "name": "Steering Routine",
-    "additional_commands": ["source /opt/ros/foxy/setup.bash"],
+    "additional_commands": ["source /opt/ros/foxy/setup.bash", ". /home/jetson/ros2_ws/install/setup.bash"],
     "cwd": null,
     "depends": ["mciu_data_formatter", "addau_data_formatter", "ros1_bridge"],
     "stabilize_time": 5
@@ -90,7 +91,7 @@
   "autodrive_routine": {
     "command": "ros2 run autodrive_routine autodrive_routine_node",
     "name": "Autodrive Routine",
-    "additional_commands": ["source /opt/ros/foxy/setup.bash"],
+    "additional_commands": ["source /opt/ros/foxy/setup.bash", ". /home/jetson/ros2_ws/install/setup.bash"],
     "cwd": null,
     "depends": ["mciu_data_formatter", "addau_data_formatter", "ros1_bridge"],
     "stabilize_time": 5
@@ -98,9 +99,33 @@
   "autolevel_routine": {
     "command": "ros2 run autolevel_routine autolevel_routine_node",
     "name": "Autolevel Routine",
-    "additional_commands": ["source /opt/ros/foxy/setup.bash"],
+    "additional_commands": ["source /opt/ros/foxy/setup.bash", ". /home/jetson/ros2_ws/install/setup.bash"],
     "cwd": null,
     "depends": ["mciu_data_formatter", "addau_data_formatter", "ros1_bridge"],
+    "stabilize_time": 5
+  },
+  "apriltag_tracker": {
+    "command": "ros2 run apriltag_tracker apriltag_tracker_node",
+    "name": "AprilTag Tracker",
+    "additional_commands": ["source /opt/ros/foxy/setup.bash", ". /home/jetson/ros2_ws/install/setup.bash"],
+    "cwd": null,
+    "depends": [],
+    "stabilize_time": 5
+  },
+  "localization_routine": {
+    "command": "ros2 run localization_routine localization_routine_node",
+    "name": "Localization Routine",
+    "additional_commands": ["source /opt/ros/foxy/setup.bash", ". /home/jetson/ros2_ws/install/setup.bash"],
+    "cwd": null,
+    "depends": ["apriltag_tracker"],
+    "stabilize_time": 5
+  },
+  "webcam_streaming_routine": {
+    "command": "ros2 run webcam_streaming_routine webcam_streaming_routine_node",
+    "name": "Webcam Streaming Routine",
+    "additional_commands": ["source /opt/ros/foxy/setup.bash", ". /home/jetson/ros2_ws/install/setup.bash"],
+    "cwd": null,
+    "depends": [],
     "stabilize_time": 5
   }
 }
