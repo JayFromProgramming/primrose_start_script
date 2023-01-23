@@ -90,7 +90,11 @@ class Main:
                 if process.depends:
                     can_start = True
                     for dependency in process.depends:
-                        if not self.get_process(dependency).running and not self.get_process(dependency).failed:
+                        depend = self.get_process(dependency)
+                        if depend is None:
+                            can_start = False
+                            break
+                        if not depend.running and not depend.failed:
                             can_start = False
                             break
                     if can_start:
