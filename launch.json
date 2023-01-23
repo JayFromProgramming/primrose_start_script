@@ -16,7 +16,7 @@
     "stabilize_time": 5
   },
   "ros1_bridge": {
-    "command": "ros2 run ros1_bridge dynamic_bridge",
+    "command": "ros2 run ros1_bridge dynamic_bridge --bridge-all-1to2-topics",
     "name": "ROS 1 -> ROS 2 Bridge",
     "additional_commands": ["source /opt/ros/foxy/setup.bash", "source /opt/ros/noetic/setup.bash",
                             ". /home/jetson/ros2_ws/install/setup.bash"],
@@ -41,16 +41,16 @@
     "stabilize_time": 5
   },
   "mciu_serial": {
-    "command": "rosrun rosserial_python serial_node.py _port:=/dev/ttyACM1 _baud:=115200",
+    "command": "rosrun rosserial_server serial_node _port:=/dev/ttyACM0 _baud:=115200",
     "name": "MCIU Serial",
     "additional_commands": ["source /opt/ros/noetic/setup.bash"],
     "cwd": null,
     "depends": ["roscore", "ros1_bridge"],
     "stabilize_time": 5
   },
-  "addau_serial": {
+  "adau_serial": {
     "command": "rosrun rosserial_python serial_node.py _port:=/dev/ttyACM0 _baud:=115200",
-    "name": "ADDAU Serial",
+    "name": "ADAU Serial",
     "additional_commands": ["source /opt/ros/noetic/setup.bash"],
     "cwd": null,
     "depends": ["roscore", "ros1_bridge"],
@@ -66,10 +66,10 @@
   },
   "addau_data_formatter": {
       "command": "ros2 run addau_data_formatter addau_data_formatter_node",
-      "name": "ADDAU Data Formatter",
+      "name": "ADAU Data Formatter",
       "additional_commands": ["source /opt/ros/foxy/setup.bash", ". /home/jetson/ros2_ws/install/setup.bash"],
       "cwd": null,
-      "depends": ["addau_serial", "ros1_bridge"],
+      "depends": ["adau_serial", "ros1_bridge"],
       "stabilize_time": 5
   },
   "diagnostics_routine": {
@@ -77,7 +77,7 @@
     "name": "Diagnostics Routine",
     "additional_commands": ["source /opt/ros/foxy/setup.bash", ". /home/jetson/ros2_ws/install/setup.bash"],
     "cwd": null,
-    "depends": ["mciu_data_formatter", "addau_data_formatter", "ros1_bridge"],
+    "depends": ["mciu_data_formatter", "adau_data_formatter", "ros1_bridge"],
     "stabilize_time": 5
   },
   "steering_control": {
@@ -85,7 +85,7 @@
     "name": "Steering Routine",
     "additional_commands": ["source /opt/ros/foxy/setup.bash", ". /home/jetson/ros2_ws/install/setup.bash"],
     "cwd": null,
-    "depends": ["mciu_data_formatter", "addau_data_formatter", "ros1_bridge"],
+    "depends": ["mciu_data_formatter", "adau_data_formatter", "ros1_bridge"],
     "stabilize_time": 5
   },
   "autodrive_routine": {
@@ -93,7 +93,7 @@
     "name": "Autodrive Routine",
     "additional_commands": ["source /opt/ros/foxy/setup.bash", ". /home/jetson/ros2_ws/install/setup.bash"],
     "cwd": null,
-    "depends": ["mciu_data_formatter", "addau_data_formatter", "ros1_bridge", "steering_control", "localization_routine"],
+    "depends": ["mciu_data_formatter", "adau_data_formatter", "ros1_bridge", "steering_control", "localization_routine"],
     "stabilize_time": 5
   },
   "autolevel_routine": {
@@ -101,7 +101,7 @@
     "name": "Autolevel Routine",
     "additional_commands": ["source /opt/ros/foxy/setup.bash", ". /home/jetson/ros2_ws/install/setup.bash"],
     "cwd": null,
-    "depends": ["mciu_data_formatter", "addau_data_formatter", "ros1_bridge"],
+    "depends": ["mciu_data_formatter", "adau_data_formatter", "ros1_bridge"],
     "stabilize_time": 5
   },
   "apriltag_tracker": {
