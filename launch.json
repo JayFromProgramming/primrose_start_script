@@ -49,7 +49,7 @@
     "stabilize_time": 5
   },
   "adau_serial": {
-    "command": "rosrun rosserial_python serial_node.py _port:=/dev/ttyACM0 _baud:=115200",
+    "command": "rosrun rosserial_python serial_node.py _port:=/dev/ttyACM1 _baud:=115200",
     "name": "ADAU Serial",
     "additional_commands": ["source /opt/ros/noetic/setup.bash"],
     "cwd": null,
