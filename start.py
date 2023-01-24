@@ -137,7 +137,7 @@ class Main:
                     process.name,
                     process.get_status(),
                     # str(process.stderr_last_line) if process.stderr_last_line else str(process.stdout_last_line),
-                    process.get_color()
+                    style=process.get_color()
                 )
             tables.append(table)
 
