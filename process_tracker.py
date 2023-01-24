@@ -56,6 +56,10 @@ class ProcessTracker:
             file.write("\n STANDARD ERROR \n")
             file.write(stderr)
 
+    @property
+    def running(self):
+        return self.state == "running"
+
     def get_status(self):
         if self.state == "waiting":
             return "Waiting..."
