@@ -125,25 +125,21 @@ class Main:
             return table_table
         chunks = [self.processes[i:i + chunk_size] for i in range(0, len(self.processes), chunk_size)]
         for chunk in chunks:
-            try:
-                table_table.add_column()
-                table = Table(show_header=True, header_style="bold magenta", show_lines=True)
-                table.add_column("PID", justify="center", style="cyan", no_wrap=True)
-                table.add_column("Process Name", width=25)
-                table.add_column("Status", width=19)
-                # table.add_column("Last Line"
-                for process in chunk:
-                    table.add_row(
-                        str(process.pid),
-                        process.name,
-                        process.get_status(),
-                        # str(process.stderr_last_line) if process.stderr_last_line else str(process.stdout_last_line),
-                        style=process.get_color()
-                    )
-                tables.append(table)
-            except Exception as e:
-                print(e)
-                pass
+            table_table.add_column()
+            table = Table(show_header=True, header_style="bold magenta", show_lines=True)
+            table.add_column("PID", justify="center", style="cyan", no_wrap=True)
+            table.add_column("Process Name", width=25)
+            table.add_column("Status", width=19)
+            # table.add_column("Last Line"
+            for process in chunk:
+                table.add_row(
+                    str(process.pid),
+                    process.name,
+                    "E",
+                    # str(process.stderr_last_line) if process.stderr_last_line else str(process.stdout_last_line),
+                    style="red"
+                )
+            tables.append(table)
 
         # Add the tables to the table table
         table_table.add_row(*tables)
