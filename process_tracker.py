@@ -24,7 +24,7 @@ class ProcessTracker:
         self.depends = process_depends
         self.status = ("Waiting..." if process_depends is not None else "Ready") if not dont_start else "Disabled"
         self.state = "waiting" if process_depends is not None else "ready"
-        self.usage = (0, 0)  # (CPU, RAM)
+        self.usage = [0, 0]  # [CPU, RAM]
         self.stdout_last_line = ""
         self.stdout_log = []
         self.stderr_last_line = ""
@@ -82,7 +82,7 @@ class ProcessTracker:
         elif self.state == "starting":
             return "Starting...\n"
         elif self.state == "running":
-            return f"Running\nCPU:{self.usage[0]}% RAM:{self.usage[1]}MB"
+            return f"Running\nCPU:{self.usage[0]} RAM:{self.usage[1]}"
         elif self.state == "stopping":
             return "Stopping...\n"
         elif self.state == "stopped":
@@ -160,8 +160,14 @@ class ProcessTracker:
             stderr = self.process_terminal.stderr.readline()
 
             # Get process memory usage and cpu usage
-            self.usage = round(psutil.Process(self.pid).cpu_percent() / 100), \
-                round(psutil.Process(self.pid).memory_info().rss / 1024 / 1024, 2)
+            self.usage[0] = f"{psutil.Process(self.pid).cpu_percent():.1f}%"
+            memory_usage = psutil.Process(self.pid).memory_info().rss
+            if memory_usage > 1024 * 1024 * 1024: # GB
+                self.usage[1] = f"{memory_usage / 1024 / 1024 / 1024:.1f}GB"
+            elif memory_usage > 1024 * 1024: # MB
+                self.usage[1] = f"{memory_usage / 1024 / 1024:.1f}MB"
+            elif memory_usage > 1024: # KB
+                self.usage[1] = f"{memory_usage / 1024:.1f}KB"
 
             if stdout:
                 self.stdout_last_line = stdout.decode("utf-8").strip()
