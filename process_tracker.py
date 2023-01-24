@@ -76,27 +76,27 @@ class ProcessTracker:
 
     def get_status(self):
         if self.state == "waiting":
-            return "Waiting..."
+            return "Waiting...\n"
         elif self.state == "ready":
-            return "Ready"
+            return "Ready\n"
         elif self.state == "starting":
-            return "Starting..."
+            return "Starting...\n"
         elif self.state == "running":
             return f"Running\nCPU:{self.usage[0]}%\nRAM:{self.usage[1]}%"
         elif self.state == "stopping":
-            return "Stopping..."
+            return "Stopping...\n"
         elif self.state == "stopped":
-            return "Stopped"
+            return "Stopped\n"
         elif self.state == "launch_failed":
             return f"Launch Failed:  {self.status}"
         elif self.state == "run_failed":
             return f"Execute Failed: {self.status}"
         elif self.state == "disabled":
-            return "Disabled"
+            return "Disabled\n"
         elif self.state == "dependency_failed":
             return f"Dependency Failed\n{self.status}"
         else:
-            return "Unknown"
+            return "Unknown\n"
 
     def get_color(self):
         if self.state == "waiting":
@@ -160,7 +160,8 @@ class ProcessTracker:
             stderr = self.process_terminal.stderr.readline()
 
             # Get process memory usage and cpu usage
-            self.usage = psutil.Process(self.pid).cpu_percent(), psutil.Process(self.pid).memory_percent()
+            self.usage = round(psutil.Process(self.pid).cpu_percent() / 100), \
+                round(psutil.Process(self.pid).memory_percent() / 100)
 
             if stdout:
                 self.stdout_last_line = stdout.decode("utf-8").strip()
