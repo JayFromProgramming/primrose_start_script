@@ -158,16 +158,18 @@ class ProcessTracker:
             self.process_terminal.stderr.flush()
             stdout = self.process_terminal.stdout.readline()
             stderr = self.process_terminal.stderr.readline()
-
-            # Get process memory usage and cpu usage
-            self.usage[0] = f"{psutil.Process(self.pid).cpu_percent():.1f}%"
-            memory_usage = psutil.Process(self.pid).memory_info().rss
-            if memory_usage > 1024 * 1024 * 1024: # GB
-                self.usage[1] = f"{memory_usage / 1024 / 1024 / 1024:.1f}GB"
-            elif memory_usage > 1024 * 1024: # MB
-                self.usage[1] = f"{memory_usage / 1024 / 1024:.1f}MB"
-            elif memory_usage > 1024: # KB
-                self.usage[1] = f"{memory_usage / 1024:.1f}KB"
+            try:
+                # Get process memory usage and cpu usage
+                self.usage[0] = f"{psutil.Process(self.pid).cpu_percent():.1f}%"
+                memory_usage = psutil.Process(self.pid).memory_info().rss
+                if memory_usage > 1024 * 1024 * 1024: # GB
+                    self.usage[1] = f"{memory_usage / 1024 / 1024 / 1024:.1f}GB"
+                elif memory_usage > 1024 * 1024: # MB
+                    self.usage[1] = f"{memory_usage / 1024 / 1024:.1f}MB"
+                elif memory_usage > 1024: # KB
+                    self.usage[1] = f"{memory_usage / 1024:.1f}KB"
+            except psutil.NoSuchProcess:
+                self.usage = ["N/A", "N/A"]
 
             if stdout:
                 self.stdout_last_line = stdout.decode("utf-8").strip()
