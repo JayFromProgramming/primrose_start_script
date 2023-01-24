@@ -20,7 +20,7 @@ class ProcessTracker:
 
         self.pid = None
         self.depends = process_depends
-        self.status = "Waiting..." if process_depends is not None else "Ready" if not dont_start else "Disabled"
+        self.status = ("Waiting..." if process_depends is not None else "Ready") if not dont_start else "Disabled"
         self.running = False
         self.starting = False
         self.failed = False
