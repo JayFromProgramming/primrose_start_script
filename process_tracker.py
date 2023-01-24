@@ -100,7 +100,7 @@ class ProcessTracker:
 
     def get_color(self):
         if self.state == "waiting":
-            return Style(color="grey")
+            return Style(color="white")
         elif self.state == "ready":
             return Style(color="green")
         elif self.state == "starting":
@@ -116,11 +116,11 @@ class ProcessTracker:
         elif self.state == "run_failed":
             return Style(color="red")
         elif self.state == "disabled":
-            return Style(color="grey")
+            return Style(color="white")
         elif self.state == "dependency_failed":
             return Style(color="red")
         else:
-            return Style(color="grey")
+            return Style(color="white")
 
     def _start(self):
         # Setup a shell with the correct environment variables (setup.bash)
