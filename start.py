@@ -155,7 +155,9 @@ if __name__ == "__main__":
 
     parser = argparse.ArgumentParser()
     parser.add_argument("--dont-launch", nargs="+", help="Don't launch the specified targets")
+    parser.add_argument("--ignore-depends", nargs="+", help="Ignore the dependencies of the specified targets")
     parser.add_argument("-no-ui", action="store_true", help="Don't launch the UI")
 
     args = parser.parse_args()
+    print(args)
     Main(args=args)
