@@ -82,7 +82,7 @@ class ProcessTracker:
         elif self.state == "starting":
             return "Starting..."
         elif self.state == "running":
-            return f"Running\nCPU: {self.usage[1]}% RAM: {self.usage[0] / 1024 / 1024:.2f} MB"
+            return f"Running\nCPU:{round(self.usage[1])}% RAM: {self.usage[0] / 1024 / 1024:.1f} MB"
         elif self.state == "stopping":
             return "Stopping..."
         elif self.state == "stopped":
