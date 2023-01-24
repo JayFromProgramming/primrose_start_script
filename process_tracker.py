@@ -82,7 +82,7 @@ class ProcessTracker:
         elif self.state == "starting":
             return "Starting...\n"
         elif self.state == "running":
-            return f"Running\nCPU:{self.usage[0]}% RAM:{self.usage[1]}%"
+            return f"Running\nCPU:{self.usage[0]}% RAM:{self.usage[1]}MB"
         elif self.state == "stopping":
             return "Stopping...\n"
         elif self.state == "stopped":
@@ -161,7 +161,7 @@ class ProcessTracker:
 
             # Get process memory usage and cpu usage
             self.usage = round(psutil.Process(self.pid).cpu_percent() / 100), \
-                round(psutil.Process(self.pid).memory_percent() / 100)
+                round(psutil.Process(self.pid).memory_info().rss / 1024 / 1024, 2)
 
             if stdout:
                 self.stdout_last_line = stdout.decode("utf-8").strip()
