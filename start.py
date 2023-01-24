@@ -101,7 +101,7 @@ class Main:
                         if depend.failed:
                             can_start = False
                             process.failed = True
-                            process.status = f"Depend Failed: {depend.process_name}"
+                            process.status = f"Dependency Failed\n{depend.process_name}"
                             break
                         if not depend.running:
                             can_start = False
@@ -126,7 +126,7 @@ class Main:
             table = Table(show_header=True, header_style="bold magenta", show_lines=True)
             table.add_column("PID", justify="center", style="cyan", no_wrap=True)
             table.add_column("Process Name", width=25)
-            table.add_column("Status", width=25)
+            table.add_column("Status", width=19)
             # table.add_column("Last Line"
             for process in chunk:
                 color = "green" if process.running else "red" if process.failed else "yellow"
