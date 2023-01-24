@@ -160,7 +160,7 @@ class ProcessTracker:
             stderr = self.process_terminal.stderr.readline()
             try:
                 # Get process memory usage and cpu usage
-                self.usage[0] = f"{psutil.Process(self.pid).cpu_percent():.1f}%"
+                self.usage[0] = f"{psutil.Process(self.pid).cpu_percent(interval=5):.1f}%"
                 memory_usage = psutil.Process(self.pid).memory_info().rss
                 if memory_usage > 1024 * 1024 * 1024: # GB
                     self.usage[1] = f"{memory_usage / 1024 / 1024 / 1024:.1f}GB"
