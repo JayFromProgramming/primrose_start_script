@@ -87,7 +87,6 @@ class Main:
         for process in self.processes:
             if not process.depends:
                 process.start()
-                print(f"Started {process.process_name}...")
 
         # Check each process every second to see if it can be started
         while True:
@@ -103,13 +102,12 @@ class Main:
                         if depend.failed:
                             can_start = False
                             process.failed = True
-                            process.status = f"Dependency Failed\n{depend.process_name}"
+                            process.status = dependency.process_name
                             break
                         if not depend.running:
                             can_start = False
                             break
                     if can_start:
-                        print(f"Starting {process.process_name}...")
                         process.start()
             time.sleep(1)
 
