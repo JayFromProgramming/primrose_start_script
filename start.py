@@ -33,7 +33,7 @@ class Main:
         self.processes = []
         self.namespace = namespace
         self.console = Console()
-        if not self.namespace.no_gui:
+        if not self.namespace.no_ui:
             threading.Thread(target=self.run).start()
         # Check if a director called "launch_scripts" exists
         if not os.path.isdir("launch_scripts"):
