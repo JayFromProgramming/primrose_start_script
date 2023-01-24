@@ -12,6 +12,7 @@ import os
 import subprocess
 import threading
 import time
+import argparse
 
 from rich import print as rprint
 from rich.console import Console
@@ -23,15 +24,18 @@ import process_tracker
 
 class Main:
 
-    def __init__(self):
+    def __init__(self, *args, **kwargs):
         # self.roscore = None
         # self.ros1_bridge = None
         # self.rosbridge_server = None
         # self.obs = None
         # self.robot_nodes = []
         self.processes = []
+        self.args = args
+        self.kwargs = kwargs
         self.console = Console()
-        threading.Thread(target=self.run).start()
+        if not self.args[1]:
+            threading.Thread(target=self.run).start()
         # Check if a director called "launch_scripts" exists
         if not os.path.isdir("launch_scripts"):
             # If not, create it
@@ -145,4 +149,13 @@ class Main:
 
 
 if __name__ == "__main__":
-    Main()
+    # Get the launch command line arguments
+    # --dont-launch [target]
+    # -no-ui
+
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--dont-launch", nargs="+", help="Don't launch the specified targets")
+    parser.add_argument("-no-ui", action="store_true", help="Don't launch the UI")
+
+    args = parser.parse_args()
+    Main(args=args)
