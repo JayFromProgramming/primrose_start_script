@@ -34,7 +34,7 @@ class Main:
         self.args = args
         self.kwargs = kwargs
         self.console = Console()
-        if not self.args[1]:
+        if not self.args[0].no_ui:
             threading.Thread(target=self.run).start()
         # Check if a director called "launch_scripts" exists
         if not os.path.isdir("launch_scripts"):
