@@ -117,7 +117,7 @@ class Main:
         tables = []
 
         # Chunk the processes into 2 columns
-        chunk_size = 12
+        chunk_size = 10
         if chunk_size == 0:
             return table_table
         chunks = [self.processes[i:i + chunk_size] for i in range(0, len(self.processes), chunk_size)]
