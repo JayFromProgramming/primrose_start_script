@@ -168,7 +168,7 @@ class ProcessTracker:
                     self.usage[1] = f"{memory_usage / 1024 / 1024:.1f}MB"
                 elif memory_usage > 1024: # KB
                     self.usage[1] = f"{memory_usage / 1024:.1f}KB"
-            except psutil.NoSuchProcess:
+            except Exception as e:
                 self.usage = ["N/A", "N/A"]
 
             if stdout:
