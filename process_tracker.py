@@ -3,6 +3,7 @@ import os
 import threading
 import time
 import psutil
+from rich.style import Style
 
 
 class ProcessTracker:
@@ -99,27 +100,27 @@ class ProcessTracker:
 
     def get_color(self):
         if self.state == "waiting":
-            return "grey"
+            return Style(color="grey")
         elif self.state == "ready":
-            return "green"
+            return Style(color="green")
         elif self.state == "starting":
-            return "yellow"
+            return Style(color="yellow")
         elif self.state == "running":
-            return "green"
+            return Style(color="green")
         elif self.state == "stopping":
-            return "yellow"
+            return Style(color="yellow")
         elif self.state == "stopped":
-            return "red"
+            return Style(color="red")
         elif self.state == "launch_failed":
-            return "red"
+            return Style(color="red")
         elif self.state == "run_failed":
-            return "red"
+            return Style(color="red")
         elif self.state == "disabled":
-            return "grey"
+            return Style(color="grey")
         elif self.state == "dependency_failed":
-            return "red"
+            return Style(color="red")
         else:
-            return "grey"
+            return Style(color="grey")
 
     def _start(self):
         # Setup a shell with the correct environment variables (setup.bash)
