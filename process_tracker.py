@@ -60,6 +60,14 @@ class ProcessTracker:
     def running(self):
         return self.state == "running"
 
+    @property
+    def starting(self):
+        return self.state == "starting"
+
+    @property
+    def failed(self):
+        return self.state == "launch_failed" or self.state == "run_failed"
+
     def get_status(self):
         if self.state == "waiting":
             return "Waiting..."
