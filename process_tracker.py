@@ -23,7 +23,7 @@ class ProcessTracker:
         self.status = ("Waiting..." if process_depends is not None else "Ready") if not dont_start else "Disabled"
         self.running = False
         self.starting = False
-        self.failed = False
+        self.failed = False if not dont_start else True
         self.stdout_last_line = ""
         self.stdout_log = []
         self.stderr_last_line = ""
