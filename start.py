@@ -70,7 +70,6 @@ class Main:
         targets = json.load(open("launch.json", "r"))
         # Create a process tracker for each process
         for target, values in targets.items():
-            print(f"Creating process tracker for {target}...")
             process = process_tracker.ProcessTracker(
                 name=values["name"],
                 process_name=target,
