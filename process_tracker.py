@@ -2,6 +2,7 @@ import subprocess
 import os
 import threading
 import time
+import psutil
 
 
 class ProcessTracker:
@@ -21,9 +22,8 @@ class ProcessTracker:
         self.pid = None
         self.depends = process_depends
         self.status = ("Waiting..." if process_depends is not None else "Ready") if not dont_start else "Disabled"
-        self.running = False
-        self.starting = False
-        self.failed = False if not dont_start else True
+        self.state = "waiting" if process_depends is not None else "ready"
+        self.usage = (0, 0)  # (CPU, RAM)
         self.stdout_last_line = ""
         self.stdout_log = []
         self.stderr_last_line = ""
@@ -56,6 +56,50 @@ class ProcessTracker:
             file.write("\n STANDARD ERROR \n")
             file.write(stderr)
 
+    def get_status(self):
+        if self.state == "waiting":
+            return "Waiting..."
+        elif self.state == "ready":
+            return "Ready"
+        elif self.state == "starting":
+            return "Starting..."
+        elif self.state == "running":
+            return f"Running\nCPU: {self.usage[1]}%\nRAM: {self.usage[0] / 1024 / 1024:.2f} MB"
+        elif self.state == "stopping":
+            return "Stopping..."
+        elif self.state == "stopped":
+            return "Stopped"
+        elif self.state == "launch_failed":
+            return f"Launch Failed:  {self.status}"
+        elif self.state == "run_failed":
+            return f"Execute Failed: {self.status}"
+        elif self.state == "disabled":
+            return "Disabled"
+        elif self.state == "dependency_failed":
+            return f"Dependency Failed\n{self.status}"
+
+    def get_color(self):
+        if self.state == "waiting":
+            return "grey"
+        elif self.state == "ready":
+            return "green"
+        elif self.state == "starting":
+            return "yellow"
+        elif self.state == "running":
+            return "green"
+        elif self.state == "stopping":
+            return "yellow"
+        elif self.state == "stopped":
+            return "red"
+        elif self.state == "launch_failed":
+            return "red"
+        elif self.state == "run_failed":
+            return "red"
+        elif self.state == "disabled":
+            return "grey"
+        elif self.state == "dependency_failed":
+            return "red"
+
     def _start(self):
         # Setup a shell with the correct environment variables (setup.bash)
 
@@ -68,7 +112,7 @@ class ProcessTracker:
         )
         self.pid = self.process_terminal.pid
         # Start the process
-        self.status = "Starting..."
+        self.state = "starting"
         self.starting = True
         start_time = time.time()
 
@@ -76,16 +120,15 @@ class ProcessTracker:
             # Wait for the process to start
             if self.process_terminal.poll() is not None:
                 # Process has stopped
-                self.status = f"Launch Failed: {self.process_terminal.returncode}"
-                self.running = False
-                self.failed = True
+                self.status = self.process_terminal.returncode
+                self.state = "launch_failed"
                 # Make log file
                 self.dump_logs(self.process_terminal.stdout.read().decode("utf-8"),
                                self.process_terminal.stderr.read().decode("utf-8"))
                 return
             time.sleep(0.1)
 
-        self.status = "Running"
+        self.state = "running"
         self.running = True
 
         while True:
@@ -96,6 +139,9 @@ class ProcessTracker:
             stdout = self.process_terminal.stdout.readline()
             stderr = self.process_terminal.stderr.readline()
 
+            # Get process memory usage and cpu usage
+            self.usage = psutil.Process(self.pid).memory_info().rss, psutil.Process(self.pid).cpu_percent()
+
             if stdout:
                 self.stdout_last_line = stdout.decode("utf-8").strip()
                 self.stdout_log.append(self.stdout_last_line)
@@ -105,12 +151,11 @@ class ProcessTracker:
 
             if self.process_terminal.poll() is not None:
                 # The process has stopped
-                self.status = f"Execute Failed: {self.process_terminal.returncode}"
+                self.status = self.process_terminal.returncode
                 self.stdout_last_line = stdout.decode("utf-8").strip()
                 self.stderr_last_line = stderr.decode("utf-8").strip()
                 # print(f"Process {self.process_name} has stopped with exit code {self.process_terminal.poll()}")
-                self.running = False
-                self.failed = True
+                self.state = "run_failed"
                 break
 
         # Dump the logs to a file
