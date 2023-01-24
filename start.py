@@ -101,7 +101,7 @@ class Main:
                         if depend.failed:
                             can_start = False
                             process.failed = True
-                            process.status = "Dependency failed"
+                            process.status = f"Depend Failed: {depend.process_name}"
                             break
                         if not depend.running:
                             can_start = False
