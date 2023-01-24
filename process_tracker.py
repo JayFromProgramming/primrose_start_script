@@ -76,31 +76,32 @@ class ProcessTracker:
 
     def get_status(self):
         if self.state == "waiting":
-            return "Waiting...\n"
+            return "Waiting..."
         elif self.state == "ready":
-            return "Ready\n"
+            return "Ready"
         elif self.state == "starting":
-            return "Starting...\n"
+            return "Starting..."
         elif self.state == "running":
-            return f"Running CPU:{self.usage[0]}\nRAM:{self.usage[1]}"
+            # return f"Running CPU:{self.usage[0]}\nRAM:{self.usage[1]}"
+            return f"Running"
         elif self.state == "stopping":
-            return "Stopping...\n"
+            return "Stopping..."
         elif self.state == "stopped":
-            return "Stopped\n"
+            return "Stopped"
         elif self.state == "launch_failed":
             return f"Launch Failed:  {self.status}\n"
         elif self.state == "run_failed":
             return f"Execute Failed: {self.status}\n"
         elif self.state == "disabled":
-            return "Disabled\n"
+            return "Disabled"
         elif self.state == "dependency_failed":
             return f"Dependency Failed\n{self.status}"
         else:
-            return "Unknown\n"
+            return "Unknown"
 
     def get_color(self):
         if self.state == "waiting":
-            return Style(color="white")
+            return Style(color="blue")
         elif self.state == "ready":
             return Style(color="green")
         elif self.state == "starting":
@@ -158,18 +159,18 @@ class ProcessTracker:
             self.process_terminal.stderr.flush()
             stdout = self.process_terminal.stdout.readline()
             stderr = self.process_terminal.stderr.readline()
-            try:
-                # Get process memory usage and cpu usage
-                self.usage[0] = f"{psutil.Process(self.pid).cpu_percent(interval=5):.1f}%"
-                memory_usage = psutil.Process(self.pid).memory_info().rss
-                if memory_usage > 1024 * 1024 * 1024: # GB
-                    self.usage[1] = f"{memory_usage / 1024 / 1024 / 1024:.1f}GB"
-                elif memory_usage > 1024 * 1024: # MB
-                    self.usage[1] = f"{memory_usage / 1024 / 1024:.1f}MB"
-                elif memory_usage > 1024: # KB
-                    self.usage[1] = f"{memory_usage / 1024:.1f}KB"
-            except Exception as e:
-                self.usage = ["N/A", "N/A"]
+            # try:
+            #     # Get process memory usage and cpu usage
+            #     self.usage[0] = f"{psutil.Process(self.pid).cpu_percent(interval=5):.1f}%"
+            #     memory_usage = psutil.Process(self.pid).memory_info().rss
+            #     if memory_usage > 1024 * 1024 * 1024: # GB
+            #         self.usage[1] = f"{memory_usage / 1024 / 1024 / 1024:.1f}GB"
+            #     elif memory_usage > 1024 * 1024: # MB
+            #         self.usage[1] = f"{memory_usage / 1024 / 1024:.1f}MB"
+            #     elif memory_usage > 1024: # KB
+            #         self.usage[1] = f"{memory_usage / 1024:.1f}KB"
+            # except Exception as e:
+            #     self.usage = ["N/A", "N/A"]
 
             if stdout:
                 self.stdout_last_line = stdout.decode("utf-8").strip()
