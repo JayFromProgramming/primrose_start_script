@@ -125,7 +125,6 @@ class ProcessTracker:
         self.pid = self.process_terminal.pid
         # Start the process
         self.state = "starting"
-        self.starting = True
         start_time = time.time()
 
         while start_time + self.stabilize_time > time.time():
@@ -141,7 +140,6 @@ class ProcessTracker:
             time.sleep(0.1)
 
         self.state = "running"
-        self.running = True
 
         while True:
             # Read the stdout and stderr
