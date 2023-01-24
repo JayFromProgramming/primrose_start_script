@@ -94,6 +94,8 @@ class ProcessTracker:
             return "Disabled"
         elif self.state == "dependency_failed":
             return f"Dependency Failed\n{self.status}"
+        else:
+            return "Unknown"
 
     def get_color(self):
         if self.state == "waiting":
@@ -116,6 +118,8 @@ class ProcessTracker:
             return "gray"
         elif self.state == "dependency_failed":
             return "red"
+        else:
+            return "gray"
 
     def _start(self):
         # Setup a shell with the correct environment variables (setup.bash)

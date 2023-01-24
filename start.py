@@ -135,9 +135,9 @@ class Main:
                 table.add_row(
                     str(process.pid),
                     process.name,
-                    "E",
+                    process.get_status(),
                     # str(process.stderr_last_line) if process.stderr_last_line else str(process.stdout_last_line),
-                    style="red"
+                    process.get_color()
                 )
             tables.append(table)
 
