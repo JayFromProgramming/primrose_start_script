@@ -88,7 +88,7 @@ class ProcessTracker:
         elif self.state == "stopped":
             return "Stopped\n"
         elif self.state == "launch_failed":
-            return f"Launch Failed:  {self.status}"
+            return f"Launch Failed:  {self.status}\n"
         elif self.state == "run_failed":
             return f"Execute Failed: {self.status}\n"
         elif self.state == "disabled":
