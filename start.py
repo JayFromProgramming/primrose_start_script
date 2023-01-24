@@ -129,13 +129,12 @@ class Main:
             table.add_column("Status", width=19)
             # table.add_column("Last Line"
             for process in chunk:
-                color = process.get_color()
                 table.add_row(
                     str(process.pid),
                     process.name,
                     process.get_status(),
                     # str(process.stderr_last_line) if process.stderr_last_line else str(process.stdout_last_line),
-                    style=color
+                    style= process.get_color()
                 )
             tables.append(table)
 

@@ -92,7 +92,7 @@ class ProcessTracker:
 
     def get_color(self):
         if self.state == "waiting":
-            return "grey"
+            return "gray"
         elif self.state == "ready":
             return "green"
         elif self.state == "starting":
@@ -108,7 +108,7 @@ class ProcessTracker:
         elif self.state == "run_failed":
             return "red"
         elif self.state == "disabled":
-            return "grey"
+            return "gray"
         elif self.state == "dependency_failed":
             return "red"
 
