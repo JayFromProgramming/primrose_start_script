@@ -8,7 +8,7 @@ class ProcessTracker:
     # This class is started via multiprocessing.Process
 
     def __init__(self, name, process_name, process_command, process_env_vars=None, process_depends=None,
-                 process_cwd=None, stabilize_time=0):
+                 process_cwd=None, stabilize_time=0, dont_start=False):
         self.name = name
         self.process_name = process_name
         self.process_command = process_command
@@ -16,6 +16,7 @@ class ProcessTracker:
         self.process_cwd = process_cwd
         self.process_terminal = None
         self.stabilize_time = stabilize_time
+        self.dont_start = dont_start
 
         self.pid = None
         self.depends = process_depends
@@ -44,7 +45,7 @@ class ProcessTracker:
             file.write(script)
 
     def start(self):
-        if self.running or self.starting:
+        if self.running or self.starting or self.dont_start:
             return
         self.thread = threading.Thread(target=self._start)
         self.thread.start()

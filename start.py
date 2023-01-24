@@ -77,7 +77,8 @@ class Main:
                 process_env_vars=values["additional_commands"],
                 process_depends=values["depends"],
                 process_cwd=values["cwd"],
-                stabilize_time=values["stabilize_time"]
+                stabilize_time=values["stabilize_time"],
+                dont_start=True if self.namespace.dont_launch and target in self.namespace.dont_launch else False
             )
             self.processes.append(process)
 
