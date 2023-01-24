@@ -68,6 +68,11 @@ class ProcessTracker:
     def failed(self):
         return self.state == "launch_failed" or self.state == "run_failed"
 
+    @failed.setter
+    def failed(self, value):
+        if value:
+            self.state = "dependency_failed"
+
     def get_status(self):
         if self.state == "waiting":
             return "Waiting..."
