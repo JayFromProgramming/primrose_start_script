@@ -150,7 +150,7 @@ class ProcessTracker:
             stderr = self.process_terminal.stderr.readline()
 
             # Get process memory usage and cpu usage
-            self.usage = psutil.Process(self.pid).memory_info().rss, psutil.Process(self.pid).cpu_percent()
+            # self.usage = psutil.Process(self.pid).memory_info().rss, psutil.Process(self.pid).cpu_percent()
 
             if stdout:
                 self.stdout_last_line = stdout.decode("utf-8").strip()
