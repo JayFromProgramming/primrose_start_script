@@ -47,7 +47,7 @@ class ProcessTracker:
     def start(self):
         if self.running or self.starting or self.dont_start:
             return
-        self.thread = threading.Thread(target=self._start)
+        self.thread = threading.Thread(target=self._start, daemon=True)
         self.thread.start()
 
     def dump_logs(self, stdout, stderr):
