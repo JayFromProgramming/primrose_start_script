@@ -24,17 +24,16 @@ import process_tracker
 
 class Main:
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, namespace):
         # self.roscore = None
         # self.ros1_bridge = None
         # self.rosbridge_server = None
         # self.obs = None
         # self.robot_nodes = []
         self.processes = []
-        self.args = args
-        self.kwargs = kwargs
+        self.namespace = namespace
         self.console = Console()
-        if not self.args[0].no_ui:
+        if not self.namespace.no_gui:
             threading.Thread(target=self.run).start()
         # Check if a director called "launch_scripts" exists
         if not os.path.isdir("launch_scripts"):
@@ -159,5 +158,4 @@ if __name__ == "__main__":
     parser.add_argument("-no-ui", action="store_true", help="Don't launch the UI")
 
     args = parser.parse_args()
-    print(args)
-    Main(args=args)
+    Main(namespace=args)
