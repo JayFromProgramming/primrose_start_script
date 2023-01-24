@@ -98,8 +98,13 @@ class Main:
                         if depend is None:
                             can_start = False
                             break
-                        if not depend.running and not depend.failed:
+                        if not depend.running:
                             can_start = False
+                            break
+                        if depend.failed:
+                            can_start = False
+                            process.failed = True
+                            process.status = "Dependency failed"
                             break
                     if can_start:
                         process.start()
