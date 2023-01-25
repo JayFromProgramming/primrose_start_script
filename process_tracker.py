@@ -23,7 +23,7 @@ class ProcessTracker:
         self.pid = None
         self.depends = process_depends
         self.status = ("Waiting..." if process_depends is not None else "Ready") if not dont_start else "Disabled"
-        self.state = "waiting" if process_depends is not None else "ready"
+        self.state = ("waiting" if process_depends is not None else "ready") if not dont_start else "disabled"
         self.usage = [0, 0]  # [CPU, RAM]
         self.stdout_last_line = ""
         self.stdout_log = []
