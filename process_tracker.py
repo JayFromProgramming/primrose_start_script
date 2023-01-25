@@ -67,7 +67,7 @@ class ProcessTracker:
 
     @property
     def failed(self):
-        return self.state == "launch_failed" or self.state == "run_failed"
+        return self.state == "launch_failed" or self.state == "run_failed" or self.state == "disabled"
 
     @failed.setter
     def failed(self, value):
