@@ -15,19 +15,10 @@
     "depends": null,
     "stabilize_time": 5
   },
-  "ros1_bridge": {
-    "command": "ros2 run ros1_bridge dynamic_bridge --bridge-all-1to2-topics",
-    "name": "ROS 1 -> ROS 2 Bridge",
-    "additional_commands": ["source /opt/ros/foxy/setup.bash", "source /opt/ros/noetic/setup.bash",
-                            ". /home/jetson/ros2_ws/install/setup.bash"],
-    "cwd": null,
-    "depends": ["roscore"],
-    "stabilize_time": 10
-  },
   "rosbridge_server": {
-    "command": "ros2 launch rosbridge_server rosbridge_websocket_launch.xml",
+    "command": "roslaunch rosbridge_server rosbridge_websocket.launch address:=141.219.126.94 port:=9090",
     "name": "Network Telemetry Server",
-    "additional_commands": ["source /opt/ros/foxy/setup.bash", ". /home/jetson/ros2_ws/install/setup.bash"],
+    "additional_commands": ["source /opt/ros/noetic/setup.bash"],
     "cwd": null,
     "depends": ["roscore"],
     "stabilize_time": 5
@@ -41,99 +32,19 @@
     "stabilize_time": 5
   },
   "mciu_serial": {
-    "command": "rosrun rosserial_server serial_node _port:=/dev/ttyACM0 _baud:=115200",
+    "command": "rosrun rosserial_python serial_node.py _port:=/dev/ttyACM0 _baud:=4000000",
     "name": "MCIU Serial",
     "additional_commands": ["source /opt/ros/noetic/setup.bash"],
     "cwd": null,
-    "depends": ["roscore", "ros1_bridge"],
+    "depends": ["roscore"],
     "stabilize_time": 5
   },
   "adau_serial": {
-    "command": "rosrun rosserial_python serial_node.py _port:=/dev/ttyACM1 _baud:=115200",
+    "command": "rosrun rosserial_server serial_node _port:=/dev/ttyACM1 _baud:=115200",
     "name": "ADAU Serial",
     "additional_commands": ["source /opt/ros/noetic/setup.bash"],
     "cwd": null,
-    "depends": ["roscore", "ros1_bridge"],
-    "stabilize_time": 5
-  },
-  "mciu_data_formatter": {
-    "command": "ros2 run mciu_dataformatter mciu_dataformatter",
-    "name": "MCIU Data Formatter",
-    "additional_commands": ["source /opt/ros/foxy/setup.bash", ". /home/jetson/ros2_ws/install/setup.bash"],
-    "cwd": null,
-    "depends": ["mciu_serial", "ros1_bridge"],
-    "stabilize_time": 5
-  },
-  "adau_data_formatter": {
-      "command": "ros2 run addau_data_formatter addau_data_formatter_node",
-      "name": "ADAU Data Formatter",
-      "additional_commands": ["source /opt/ros/foxy/setup.bash", ". /home/jetson/ros2_ws/install/setup.bash"],
-      "cwd": null,
-      "depends": ["adau_serial", "ros1_bridge"],
-      "stabilize_time": 5
-  },
-  "diagnostics_routine": {
-    "command": "ros2 run primrose_sdr primrose_sdr",
-    "name": "Diagnostics Routine",
-    "additional_commands": ["source /opt/ros/foxy/setup.bash", ". /home/jetson/ros2_ws/install/setup.bash"],
-    "cwd": null,
-    "depends": ["mciu_data_formatter", "adau_data_formatter", "ros1_bridge"],
-    "stabilize_time": 5
-  },
-  "steering_control": {
-    "command": "ros2 run steering_control steering_control_node",
-    "name": "Steering Routine",
-    "additional_commands": ["source /opt/ros/foxy/setup.bash", ". /home/jetson/ros2_ws/install/setup.bash"],
-    "cwd": null,
-    "depends": ["mciu_data_formatter", "adau_data_formatter", "ros1_bridge"],
-    "stabilize_time": 5
-  },
-  "autodrive_routine": {
-    "command": "ros2 run autodrive_routine autodrive_routine_node",
-    "name": "Autodrive Routine",
-    "additional_commands": ["source /opt/ros/foxy/setup.bash", ". /home/jetson/ros2_ws/install/setup.bash"],
-    "cwd": null,
-    "depends": ["mciu_data_formatter", "adau_data_formatter", "ros1_bridge", "steering_control", "localization_routine"],
-    "stabilize_time": 5
-  },
-  "autolevel_routine": {
-    "command": "ros2 run autolevel_routine autolevel_routine_node",
-    "name": "Autolevel Routine",
-    "additional_commands": ["source /opt/ros/foxy/setup.bash", ". /home/jetson/ros2_ws/install/setup.bash"],
-    "cwd": null,
-    "depends": ["mciu_data_formatter", "adau_data_formatter", "ros1_bridge"],
-    "stabilize_time": 5
-  },
-  "apriltag_tracker": {
-    "command": "ros2 run apriltag_tracker apriltag_tracker_node",
-    "name": "AprilTag Tracker",
-    "additional_commands": ["source /opt/ros/foxy/setup.bash", ". /home/jetson/ros2_ws/install/setup.bash"],
-    "cwd": null,
-    "depends": [],
-    "stabilize_time": 5
-  },
-  "localization_routine": {
-    "command": "ros2 run localization_routine localization_routine_node",
-    "name": "Localization Routine",
-    "additional_commands": ["source /opt/ros/foxy/setup.bash", ". /home/jetson/ros2_ws/install/setup.bash"],
-    "cwd": null,
-    "depends": ["apriltag_tracker"],
-    "stabilize_time": 5
-  },
-  "webcam_streaming_routine": {
-    "command": "ros2 run webcam_streaming_routine webcam_streaming_routine_node",
-    "name": "Webcam Streaming Routine",
-    "additional_commands": ["source /opt/ros/foxy/setup.bash", ". /home/jetson/ros2_ws/install/setup.bash"],
-    "cwd": null,
-    "depends": ["rosbridge_server"],
-    "stabilize_time": 5
-  },
-  "command_decision_routine": {
-    "command": "ros2 run command_decision_routine command_decision_routine_node",
-    "name": "Command Decision Routine",
-    "additional_commands": ["source /opt/ros/foxy/setup.bash", ". /home/jetson/ros2_ws/install/setup.bash"],
-    "cwd": null,
-    "depends": ["rosbridge_server"],
+    "depends": ["roscore"],
     "stabilize_time": 5
   }
 }
