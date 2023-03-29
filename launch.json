@@ -7,14 +7,6 @@
     "depends": null,
     "stabilize_time": 5
   },
-  "obs": {
-    "command": "obs",
-    "name": "OBS Studio",
-    "additional_commands": ["Xvfb :1 &", "export DISPLAY=:1"],
-    "cwd": null,
-    "depends": null,
-    "stabilize_time": 5
-  },
   "rosbridge_server": {
     "command": "roslaunch rosbridge_server rosbridge_websocket.launch address:=141.219.126.94 port:=9090",
     "name": "Network Telemetry Server",
