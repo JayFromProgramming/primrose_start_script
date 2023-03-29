@@ -171,7 +171,7 @@ if __name__ == "__main__":
     # Get the launch command line arguments
     # --dont-launch [target]
     # -no-ui
-
+    print("Starting Launch Script...")
     parser = argparse.ArgumentParser()
     parser.add_argument("--dont-launch", nargs="+", help="Don't launch the specified targets")
     parser.add_argument("--ignore-depends", nargs="+", help="Ignore the dependencies of the specified targets")
