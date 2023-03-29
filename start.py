@@ -101,18 +101,25 @@ class Main:
                         depend = self.get_process(dependency)
                         if depend is None:
                             can_start = False
+                            self.log_print(f"Failed to start {process.name} because {dependency} is not a valid dependency")
                             break
                         if depend.failed:
                             can_start = False
                             process.failed = True
                             process.status = dependency
+                            self.log_print(f"Failed to start {process.name} because {dependency} failed to start")
                             break
                         if not depend.running:
                             can_start = False
                             break
                     if can_start:
+                        self.log_print(f"Starting {process.name}")
                         process.start()
             time.sleep(1)
+
+    def log_print(self, text):
+        if self.namespace.no_ui or not ui_available:
+            print(text)
 
     def display_status(self):
         # Display the status of all processes in a table
