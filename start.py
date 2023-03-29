@@ -14,10 +14,14 @@ import threading
 import time
 import argparse
 
-from rich import print as rprint
-from rich.console import Console
-from rich.table import Table
-from rich.live import Live
+try:
+    from rich import print as rprint
+    from rich.console import Console
+    from rich.table import Table
+    from rich.live import Live
+    ui_available = True
+except ImportError:
+    ui_available = False
 
 import process_tracker
 
@@ -33,7 +37,7 @@ class Main:
         self.processes = []
         self.namespace = namespace
         self.console = Console()
-        if not self.namespace.no_ui:
+        if not self.namespace.no_ui and ui_available:
             threading.Thread(target=self.run).start()
         # Check if a director called "launch_scripts" exists
         if not os.path.isdir("launch_scripts"):
