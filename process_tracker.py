@@ -3,8 +3,10 @@ import os
 import threading
 import time
 import psutil
-from rich.style import Style
-
+try:
+    from rich.style import Style
+except ImportError:
+    pass
 
 class ProcessTracker:
     # This class is started via multiprocessing.Process
