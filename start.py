@@ -36,8 +36,8 @@ class Main:
         # self.robot_nodes = []
         self.processes = []
         self.namespace = namespace
-        self.console = Console()
         if not self.namespace.no_ui and ui_available:
+            self.console = Console()
             threading.Thread(target=self.run).start()
         # Check if a director called "launch_scripts" exists
         if not os.path.isdir("launch_scripts"):
