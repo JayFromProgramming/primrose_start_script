@@ -8,6 +8,8 @@ try:
 except ImportError:
     pass
 
+from loguru import logger as logging
+
 class ProcessTracker:
     # This class is started via multiprocessing.Process
 
@@ -180,7 +182,7 @@ class ProcessTracker:
             if stderr:
                 self.stderr_last_line = stderr.decode("utf-8").strip()
                 self.stderr_log.append(self.stderr_last_line)
-                print(f"{self.process_name}: {self.stderr_last_line}")
+                logging.error(f"{self.process_name}: {self.stderr_last_line}")
 
             if self.process_terminal.poll() is not None:
                 # The process has stopped

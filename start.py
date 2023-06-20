@@ -27,6 +27,7 @@ except ImportError:
 
 import process_tracker
 
+from loguru import logger as logging
 
 def get_host_names():
     """
@@ -40,7 +41,7 @@ def get_host_names():
                     if link["addr"] != "":
                         interfaces.append(link["addr"])
         except Exception as e:
-            # logging.debug(f"Error getting interface {interface}: {e}")
+            logging.debug(f"Error getting interface {interface}: {e}")
             pass
     return interfaces
 
@@ -76,6 +77,8 @@ class Main:
 
         if not os.path.isdir("logs"):
             os.mkdir("logs")
+
+        logging.info("Starting launch scripts")
 
         self.start()
 
