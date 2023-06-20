@@ -65,6 +65,9 @@ class Main:
         # self.rosbridge_server = None
         # self.obs = None
         # self.robot_nodes = []
+        # Execute fuser -k 9090/tcp to kill any processes using port 9090 before starting
+        logging.info("Killing any processes using port 9090")
+        subprocess.Popen(args="fuser -k 9090/tcp", shell=True)
         self.processes = []
         self.namespace = namespace
         if not self.namespace.no_ui and ui_available:
