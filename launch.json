@@ -28,7 +28,7 @@
     "name": "MCIU Serial",
     "additional_commands": ["source /opt/ros/noetic/setup.bash"],
     "cwd": null,
-    "depends": ["roscore"],
+    "depends": ["roscore, rosbridge_server"],
     "stabilize_time": 5
   }
 }

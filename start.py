@@ -20,11 +20,13 @@ try:
     from rich.console import Console
     from rich.table import Table
     from rich.live import Live
+
     ui_available = True
 except ImportError:
     ui_available = False
 
 import process_tracker
+
 
 def get_host_names():
     """
@@ -41,6 +43,7 @@ def get_host_names():
             # logging.debug(f"Error getting interface {interface}: {e}")
             pass
     return interfaces
+
 
 class Main:
 
