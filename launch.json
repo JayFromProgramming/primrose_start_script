@@ -49,7 +49,7 @@
   },
   "trch": {
     "command": "rosrun primrose_trch trch",
-    "name": "Telemetry and Remote Command Handler",
+    "name": "Trencher Controller",
     "additional_commands": [
       "source /opt/ros/noetic/setup.bash",
       "source /ros_ws/devel/setup.sh"
