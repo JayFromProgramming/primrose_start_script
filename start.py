@@ -52,9 +52,7 @@ class Main:
         """
         addresses = "\" \"".join(get_host_names())
         return command.format(
-            address=addresses,
-            namespace=self.namespace.namespace,
-            serial_port=self.namespace.serial_port
+            address=addresses
         )
 
     def __init__(self, namespace):
