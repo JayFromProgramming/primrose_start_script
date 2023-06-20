@@ -30,13 +30,5 @@
     "cwd": null,
     "depends": ["roscore"],
     "stabilize_time": 5
-  },
-  "adau_serial": {
-    "command": "rosrun rosserial_server serial_node _port:=/dev/ttyACM1 _baud:=115200",
-    "name": "ADAU Serial",
-    "additional_commands": ["source /opt/ros/noetic/setup.bash"],
-    "cwd": null,
-    "depends": ["roscore"],
-    "stabilize_time": 5
   }
 }
