@@ -13,6 +13,7 @@ import subprocess
 import threading
 import time
 import argparse
+import netifaces
 
 try:
     from rich import print as rprint
@@ -37,7 +38,7 @@ def get_host_names():
                     if link["addr"] != "":
                         interfaces.append(link["addr"])
         except Exception as e:
-            logging.debug(f"Error getting interface {interface}: {e}")
+            # logging.debug(f"Error getting interface {interface}: {e}")
             pass
     return interfaces
 
