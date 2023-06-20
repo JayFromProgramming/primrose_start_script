@@ -25,8 +25,36 @@ except ImportError:
 
 import process_tracker
 
+def get_host_names():
+    """
+    Gets all the ip addresses that can be bound to
+    """
+    interfaces = []
+    for interface in netifaces.interfaces():
+        try:
+            if netifaces.AF_INET in netifaces.ifaddresses(interface):
+                for link in netifaces.ifaddresses(interface)[netifaces.AF_INET]:
+                    if link["addr"] != "":
+                        interfaces.append(link["addr"])
+        except Exception as e:
+            logging.debug(f"Error getting interface {interface}: {e}")
+            pass
+    return interfaces
 
 class Main:
+
+    def format_command(self, command):
+        """Keywords that can be used in the command string
+        {address}     - The network address of the robot
+        {namespace}   - The namespace of the robot
+        {serial_port} - The serial port of the robot
+        """
+        addresses = "\" \"".join(get_host_names())
+        return command.format(
+            address=addresses,
+            namespace=self.namespace.namespace,
+            serial_port=self.namespace.serial_port
+        )
 
     def __init__(self, namespace):
         # self.roscore = None
@@ -77,7 +105,7 @@ class Main:
             process = process_tracker.ProcessTracker(
                 name=values["name"],
                 process_name=target,
-                process_command=values["command"],
+                process_command=self.format_command(values["command"]),
                 process_env_vars=values["additional_commands"],
                 process_depends=values["depends"],
                 process_cwd=values["cwd"],
