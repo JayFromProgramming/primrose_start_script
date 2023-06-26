@@ -10,7 +10,10 @@
   "rosbridge_server": {
     "command": "roslaunch rosbridge_server rosbridge_websocket.launch address:={address} port:=9090",
     "name": "Network Telemetry Server",
-    "additional_commands": ["source /opt/ros/noetic/setup.bash"],
+    "additional_commands": [
+      "source /opt/ros/noetic/setup.bash",
+      "source /home/jetson/ros_ws/devel/setup.sh"
+    ],
     "cwd": null,
     "depends": ["roscore"],
     "stabilize_time": 5
