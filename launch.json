@@ -45,14 +45,28 @@
     "depends": [
       "roscore",
       "rosbridge_server",
-      "mciu_serial",
-      "dontrun"
+      "mciu_serial"
     ],
     "stabilize_time": 5
   },
   "trch": {
     "command": "rosrun primrose_trch trch",
     "name": "Trencher Controller",
+    "additional_commands": [
+      "source /opt/ros/noetic/setup.bash",
+      "source /home/jetson/ros_ws/devel/setup.sh"
+    ],
+    "cwd": null,
+    "depends": [
+      "roscore",
+      "rosbridge_server",
+      "mciu_serial"
+    ],
+    "stabilize_time": 5
+  },
+  "conv": {
+    "command": "rosrun primrose_conv conv",
+    "name": "Conveyor Controller",
     "additional_commands": [
       "source /opt/ros/noetic/setup.bash",
       "source /home/jetson/ros_ws/devel/setup.sh"
