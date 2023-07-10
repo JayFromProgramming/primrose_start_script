@@ -39,7 +39,7 @@
     "name": "Quarter Module Controller",
     "additional_commands": [
       "source /opt/ros/noetic/setup.bash",
-      "source /ros_ws/devel/setup.sh"
+      "source /home/jetson/ros_ws/devel/setup.sh"
     ],
     "cwd": null,
     "depends": [
