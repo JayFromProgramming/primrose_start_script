@@ -78,5 +78,20 @@
       "mciu_serial"
     ],
     "stabilize_time": 5
+  },
+  "imu": {
+    "command": "roslaunch /home/jetson/ros_ws/src/ros-imu-bno055/launch/imu.launch",
+    "name": "IMU",
+    "additional_commands": [
+      "source /opt/ros/noetic/setup.bash",
+      "source /home/jetson/ros_ws/devel/setup.sh"
+    ],
+    "cwd": null,
+    "depends": [
+      "roscore",
+      "rosbridge_server",
+      "mciu_serial"
+    ],
+    "stabilize_time": 5
   }
 }
