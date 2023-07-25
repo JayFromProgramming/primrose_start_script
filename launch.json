@@ -18,14 +18,6 @@
     "depends": ["roscore"],
     "stabilize_time": 5
   },
-  "glances": {
-    "command": "glances -w",
-    "name": "Glances System Monitor",
-    "additional_commands": null,
-    "cwd": null,
-    "depends": null,
-    "stabilize_time": 5
-  },
   "mciu_serial": {
     "command": "rosrun rosserial_python serial_node.py _port:=/dev/ttyACM0 _baud:=4000000",
     "name": "MCIU Serial",
