@@ -45,8 +45,7 @@
     "depends": [
       "roscore",
       "rosbridge_server",
-      "mciu_serial",
-      "no_run"
+      "mciu_serial"
     ],
     "stabilize_time": 5
   },
