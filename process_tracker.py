@@ -14,7 +14,7 @@ class ProcessTracker:
     # This class is started via multiprocessing.Process
 
     def __init__(self, name, process_name, process_command, process_env_vars=None, process_depends=None,
-                 process_cwd=None, stabilize_time=0, dont_start=False):
+                 process_cwd=None, stabilize_time=0, dont_start=False, restart_on_fail=False):
         self.name = name
         self.process_name = process_name
         self.process_command = process_command
@@ -23,6 +23,7 @@ class ProcessTracker:
         self.process_terminal = None
         self.stabilize_time = stabilize_time
         self.dont_start = dont_start
+        self.restart_on_fail = restart_on_fail
 
         self.pid = None
         self.depends = process_depends
@@ -198,6 +199,9 @@ class ProcessTracker:
             file.write("\n".join(self.stdout_log))
             file.write("\n STANDARD ERROR \n")
             file.write("\n".join(self.stderr_log))
+
+        if self.restart_on_fail:
+            self._start()
 
     def stop(self):
         self.process_terminal.terminate()

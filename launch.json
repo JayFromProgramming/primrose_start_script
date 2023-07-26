@@ -16,7 +16,8 @@
     ],
     "cwd": null,
     "depends": ["roscore"],
-    "stabilize_time": 5
+    "stabilize_time": 5,
+    "restart_on_fail": true
   },
   "glances": {
     "command": "glances -w",

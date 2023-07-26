@@ -118,7 +118,8 @@ class Main:
                 process_depends=values["depends"],
                 process_cwd=values["cwd"],
                 stabilize_time=values["stabilize_time"],
-                dont_start=True if self.namespace.dont_launch and target in self.namespace.dont_launch else False
+                dont_start=True if self.namespace.dont_launch and target in self.namespace.dont_launch else False,
+                restart_on_fail=values["restart_on_fail"] if "restart_on_fail" in values else False,
             )
             self.processes.append(process)
 
