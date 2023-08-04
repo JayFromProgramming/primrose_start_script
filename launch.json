@@ -12,7 +12,7 @@
     "name": "Network Telemetry Server",
     "additional_commands": [
       "source /opt/ros/noetic/setup.bash",
-      "source /home/jetson/ros_ws/devel/setup.sh"
+      "source /home/ubuntu/catkin_ws/devel/setup.bash"
     ],
     "cwd": null,
     "depends": ["roscore"],
@@ -40,7 +40,7 @@
     "name": "Quarter Module Controller",
     "additional_commands": [
       "source /opt/ros/noetic/setup.bash",
-      "source /home/jetson/ros_ws/devel/setup.sh"
+      "source /home/ubuntu/catkin_ws/devel/setup.bash"
     ],
     "cwd": null,
     "depends": [
@@ -55,7 +55,7 @@
     "name": "Trencher Controller",
     "additional_commands": [
       "source /opt/ros/noetic/setup.bash",
-      "source /home/jetson/ros_ws/devel/setup.sh"
+      "source /home/ubuntu/catkin_ws/devel/setup.bash"
     ],
     "cwd": null,
     "depends": [
@@ -70,7 +70,7 @@
     "name": "Conveyor Controller",
     "additional_commands": [
       "source /opt/ros/noetic/setup.bash",
-      "source /home/jetson/ros_ws/devel/setup.sh"
+      "source /home/ubuntu/catkin_ws/devel/setup.bash"
     ],
     "cwd": null,
     "depends": [
@@ -85,9 +85,24 @@
     "name": "IMU",
     "additional_commands": [
       "source /opt/ros/noetic/setup.bash",
-      "source /home/jetson/ros_ws/devel/setup.sh"
+      "source /home/ubuntu/catkin_ws/devel/setup.bash"
     ],
     "cwd": null,
+    "depends": [
+      "roscore",
+      "rosbridge_server",
+      "mciu_serial"
+    ],
+    "stabilize_time": 5
+  },
+  "fdr": {
+    "command": "rosbag record -a",
+    "name": "Flight Data Recorder",
+    "additional_commands": [
+      "source /opt/ros/noetic/setup.bash",
+      "source /home/ubuntu/catkin_ws/devel/setup.bash"
+    ],
+    "cwd": "/mount/ssd/fdr",
     "depends": [
       "roscore",
       "rosbridge_server",
