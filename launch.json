@@ -97,13 +97,14 @@
     "stabilize_time": 5
   },
   "fdr": {
-    "command": "rosbag record -a",
+    "command": "rosbag record -a --split --duration=1800",
     "name": "Flight Data Recorder",
     "additional_commands": [
       "source /opt/ros/noetic/setup.bash",
-      "source /home/ubuntu/catkin_ws/devel/setup.bash"
+      "source /home/ubuntu/catkin_ws/devel/setup.bash",
+      "cd /home/ubuntu/ssd/fdr"
     ],
-    "cwd": "/home/ubuntu/ssd/fdr",
+    "cwd": null,
     "depends": [
       "roscore",
       "rosbridge_server",
