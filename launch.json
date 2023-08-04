@@ -103,7 +103,7 @@
       "source /opt/ros/noetic/setup.bash",
       "source /home/ubuntu/catkin_ws/devel/setup.bash"
     ],
-    "cwd": "/mount/ssd/fdr",
+    "cwd": "/home/ubuntu/ssd/fdr",
     "depends": [
       "roscore",
       "rosbridge_server",
